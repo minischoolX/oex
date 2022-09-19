@@ -60,7 +60,7 @@ public abstract class CourseBaseActivityTest extends BaseFragmentActivityTest {
             try {
                 model = executeStrict(courseAPI.getCourseStructure(
                         config.getApiUrlVersionConfig().getBlocksApiVersion(), courseId));
-                courseComponent = (CourseComponent) CourseAPI.normalizeCourseStructure(model, courseId);
+                courseComponent = (CourseComponent) CourseAPI.Companion.normalizeCourseStructure(model, courseId);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

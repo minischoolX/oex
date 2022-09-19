@@ -35,7 +35,7 @@ public class DiscoveryLaunchPresenter extends ViewHoldingPresenter<DiscoveryLaun
 
     public void onResume() {
         assert getView() != null;
-        if (loginPrefs.getUsername() != null) {
+        if (loginPrefs.iaUserLoggedIn()) {
             getView().navigateToMyCourses();
         }
     }

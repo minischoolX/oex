@@ -154,25 +154,27 @@ public class LoginPrefs {
         return gson.fromJson(json, AuthResponse.class);
     }
 
-    @Nullable
+    public boolean iaUserLoggedIn() {
+        final String json = pref.getString(PrefManager.Key.PROFILE_JSON);
+        return json != null;
+    }
+
+    @NonNull
     public ProfileModel getCurrentUserProfile() {
         final String json = pref.getString(PrefManager.Key.PROFILE_JSON);
-        if (json == null) {
-            return null;
-        }
         return gson.fromJson(json, ProfileModel.class);
     }
 
-    @Nullable
+    @NonNull
     public Long getUserId() {
         final ProfileModel profileModel = getCurrentUserProfile();
-        return profileModel != null ? profileModel.id : null;
+        return profileModel.id;
     }
 
-    @Nullable
+    @NonNull
     public String getUsername() {
         final ProfileModel profileModel = getCurrentUserProfile();
-        return null == profileModel ? null : profileModel.username;
+        return profileModel.username;
     }
 
     @Nullable

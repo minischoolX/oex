@@ -45,7 +45,7 @@ public class MediaStatusReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         final String username = loginPrefs.getUsername();
-        final String hashedUsername = (username != null) ? Sha1Util.SHA1(username) : null;
+        final String hashedUsername = Sha1Util.SHA1(username);
 
         final String sdCardPath = intent.getDataString().replace("file://", "");
         final String action = intent.getAction();

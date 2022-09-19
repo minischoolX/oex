@@ -26,7 +26,6 @@ object CalendarUtils {
     private val logger = Logger(DateUtil::class.java.name)
     private const val REMINDER_24_HOURS = 24 * 60
     private const val REMINDER_48_HOURS = 2 * 24 * 60
-    private const val LOCAL_USER = "local_user"
 
     val permissions = arrayOf(
         android.Manifest.permission.WRITE_CALENDAR,
@@ -420,7 +419,7 @@ object CalendarUtils {
      */
     @JvmStatic
     fun getUserAccountForSync(environment: IEdxEnvironment): String {
-        return environment.loginPrefs.currentUserProfile?.email ?: LOCAL_USER
+        return environment.loginPrefs.currentUserProfile.email
     }
 
     /**

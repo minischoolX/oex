@@ -350,7 +350,7 @@ class MyCoursesListFragment : OfflineSupportBaseFragment(), RefreshListener {
 
                 billingProcessor.queryPurchase { _, purchases ->
 
-                    if (purchases.isEmpty() || environment.loginPrefs.userId == null) return@queryPurchase
+                    if (purchases.isEmpty()) return@queryPurchase
 
                     val purchasesList = purchases.filter {
                         it.accountIdentifiers?.obfuscatedAccountId?.decodeToLong() ==

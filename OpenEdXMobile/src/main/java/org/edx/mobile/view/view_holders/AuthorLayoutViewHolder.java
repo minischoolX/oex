@@ -65,7 +65,7 @@ public class AuthorLayoutViewHolder {
                  * Incase of PATCH we just use the image that we got in the initial GET call.
                  */
                 ProfileModel profileModel = loginPrefs.getCurrentUserProfile();
-                if (profileModel != null && authorData.getAuthor().equals(profileModel.username)) {
+                if (authorData.getAuthor().equals(profileModel.username)) {
                     profileImage = loginPrefs.getProfileImage();
                 } else {
                     profileImage = null;

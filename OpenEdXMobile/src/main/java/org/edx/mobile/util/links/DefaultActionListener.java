@@ -143,7 +143,7 @@ public class DefaultActionListener implements URLInterceptorWebViewClient.Action
             return;
         }
 
-        if (environment.getLoginPrefs().getUsername() == null) {
+        if (!environment.getLoginPrefs().iaUserLoggedIn()) {
             enrollCallback.onUserNotLoggedIn(courseId, emailOptIn);
             return;
         }

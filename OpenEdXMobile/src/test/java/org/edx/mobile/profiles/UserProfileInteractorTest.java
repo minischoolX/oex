@@ -304,8 +304,7 @@ public class UserProfileInteractorTest extends BaseTest {
     }
 
     private void setAuthenticatedUsername(@NonNull String username) {
-        final ProfileModel profileModel = new ProfileModel();
-        profileModel.username = username;
+        final ProfileModel profileModel = new ProfileModel(0, username, "", null);
         when(userPrefs.getProfile()).thenReturn(profileModel);
     }
 

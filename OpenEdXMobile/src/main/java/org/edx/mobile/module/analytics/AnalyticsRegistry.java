@@ -453,10 +453,10 @@ public class AnalyticsRegistry implements Analytics {
 
     @Override
     public void trackValuePropMessageViewed(@NonNull String courseId, @NonNull String screenName,
-                                            boolean isIAPEnabled, @Nullable String experimentGroup,
+                                            boolean paymentEnabled, @Nullable String experimentGroup,
                                             @Nullable String componentId) {
         for (Analytics service : services) {
-            service.trackValuePropMessageViewed(courseId, screenName, isIAPEnabled, experimentGroup, componentId);
+            service.trackValuePropMessageViewed(courseId, screenName, paymentEnabled, experimentGroup, componentId);
         }
     }
 

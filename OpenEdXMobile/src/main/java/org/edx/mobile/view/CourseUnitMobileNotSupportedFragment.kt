@@ -85,7 +85,7 @@ class CourseUnitMobileNotSupportedFragment : CourseUnitFragment() {
             environment.analyticsRegistry.trackValuePropMessageViewed(
                 it.courseId,
                 Screens.COURSE_UNIT,
-                environment.appFeaturesPrefs.isIAPEnabled(),
+                (it.courseSku.isNullOrEmpty().not() && environment.appFeaturesPrefs.isIAPEnabled()),
                 experimentGroup,
                 it.id
             )

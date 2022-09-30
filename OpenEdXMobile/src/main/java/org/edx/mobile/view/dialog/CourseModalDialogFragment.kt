@@ -111,11 +111,6 @@ class CourseModalDialogFragment : DialogFragment() {
             isSelfPaced = isSelfPaced,
             screenName = screenName
         )
-        var experimentGroup: String? = null
-        if (environment.appFeaturesPrefs.isIAPExperimentEnabled()) {
-            experimentGroup =
-                if (environment.loginPrefs.isOddUserId) Analytics.Values.TREATMENT else Analytics.Values.CONTROL
-        }
         environment.analyticsRegistry.trackValuePropLearnMoreTapped(courseId, screenName)
         environment.analyticsRegistry.trackScreenView(
             Events.VALUE_PROP_MODAL_VIEW,
@@ -123,10 +118,15 @@ class CourseModalDialogFragment : DialogFragment() {
             null,
             mapOf(Pair(KEY_SCREEN_NAME, screenName))
         )
+        var experimentGroup: String? = null
+        if (environment.appFeaturesPrefs.isIAPExperimentEnabled()) {
+            experimentGroup =
+                if (environment.loginPrefs.isOddUserId) Analytics.Values.TREATMENT else Analytics.Values.CONTROL
+        }
         environment.analyticsRegistry.trackValuePropMessageViewed(
             courseId,
             screenName,
-            environment.appFeaturesPrefs.isIAPEnabled(),
+            (courseSku.isNullOrEmpty().not() && environment.appFeaturesPrefs.isIAPEnabled()),
             experimentGroup,
             null
         )

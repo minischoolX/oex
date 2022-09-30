@@ -922,13 +922,13 @@ public class SegmentAnalytics implements Analytics {
 
     @Override
     public void trackValuePropMessageViewed(@NonNull String courseId, @NonNull String screenName,
-                                            boolean isIAPEnabled, @Nullable String experimentGroup,
+                                            boolean paymentEnabled, @Nullable String experimentGroup,
                                             @Nullable String componentId) {
         final SegmentEvent aEvent = new SegmentEvent();
         aEvent.properties.putValue(Keys.NAME, Values.VALUE_PROP_MESSAGE_VIEWED);
         aEvent.data.putValue(Keys.COURSE_ID, courseId);
         aEvent.data.putValue(Keys.SCREEN_NAME, screenName);
-        aEvent.data.putValue(Keys.PAYMENT_ENABLED, isIAPEnabled);
+        aEvent.data.putValue(Keys.PAYMENT_ENABLED, paymentEnabled);
         if (!TextUtils.isEmpty(experimentGroup)) {
             aEvent.data.putValue(Keys.IAP_EXPERIMENT_GROUP, experimentGroup);
         }

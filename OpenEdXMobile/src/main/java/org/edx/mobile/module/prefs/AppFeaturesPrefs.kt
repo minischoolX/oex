@@ -25,7 +25,7 @@ class AppFeaturesPrefs @Inject constructor(@ApplicationContext context: Context)
 
     fun isIAPEnabled() = getIAPConfig().isEnabled
 
-    fun isIAPExperimentEnabled() = getIAPConfig().isExperimentEnabled
+    fun isIAPExperimentEnabled() = isIAPEnabled() && getIAPConfig().isExperimentEnabled
 
     /**
      * Method to check if the IAP is enabled for treatment/control group

@@ -454,12 +454,13 @@ public interface Analytics {
      *
      * @param courseId        course id of the course through which the modal is appeared
      * @param screenName      The screen name through which Modal will appear
-     * @param isIAPEnabled    Whether the In-App purchases is enabled or not
+     * @param paymentEnabled  Whether the {@link org.edx.mobile.model.api.IAPConfig.isEnabled} &&
+     *                        Course has SKU
      * @param experimentGroup Experiment group based on user id
      * @param componentId     Component id of course unit
      */
     void trackValuePropMessageViewed(@NonNull String courseId, @NonNull String screenName,
-                                     boolean isIAPEnabled, @Nullable String experimentGroup,
+                                     boolean paymentEnabled, @Nullable String experimentGroup,
                                      @Nullable String componentId);
 
     /**

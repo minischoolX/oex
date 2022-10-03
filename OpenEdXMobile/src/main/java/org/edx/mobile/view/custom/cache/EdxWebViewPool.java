@@ -2,7 +2,7 @@ package org.edx.mobile.view.custom.cache;
 
 import android.content.Context;
 import android.content.MutableContextWrapper;
-import androidx.core.util.Pools;
+import androidx.util.Pools;
 
 import org.edx.mobile.view.custom.cache.utils.LogUtils;
 import org.edx.mobile.view.custom.EdxWebView;

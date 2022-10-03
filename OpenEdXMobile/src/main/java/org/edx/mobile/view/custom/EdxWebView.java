@@ -49,7 +49,7 @@ public class EdxWebView extends WebView implements CacheApi {
     }
 
 
-    public void release() {
+/**    public void release() {
         stopLoading();
         loadUrl("");
         setRecycled(true);
@@ -70,7 +70,7 @@ public class EdxWebView extends WebView implements CacheApi {
         }
         getFastCookieManager().destroy();
     }
-
+*/
     public void setCacheMode(FastCacheMode mode) {
         setCacheMode(mode, null);
     }

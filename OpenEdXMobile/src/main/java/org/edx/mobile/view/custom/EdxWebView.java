@@ -44,7 +44,7 @@ public class EdxWebView extends WebView implements CacheApi {
 
     @Override
     public void destroy() {
-        release();
+//        release();
         super.destroy();
     }
 

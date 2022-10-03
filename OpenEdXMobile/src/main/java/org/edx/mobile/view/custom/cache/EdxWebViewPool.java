@@ -2,11 +2,11 @@ package org.edx.mobile.view.custom.cache;
 
 import android.content.Context;
 import android.content.MutableContextWrapper;
-import androidx.util.Pools;
+import android.util.Pools;
 
 import org.edx.mobile.view.custom.cache.utils.LogUtils;
 import org.edx.mobile.view.custom.EdxWebView;
-import com.edx.mobile.BuildConfig;
+import org.edx.mobile.BuildConfig;
 
 /**
  * A simple webview instance pool.

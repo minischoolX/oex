@@ -7,7 +7,7 @@ import org.edx.mobile.view.custom.cache.WebResource;
 import org.edx.mobile.view.custom.cache.okhttp.OkHttpClientProvider;
 import org.edx.mobile.view.custom.cache.utils.HeaderUtils;
 import org.edx.mobile.view.custom.cache.utils.LogUtils;
-import com.edx.mobile.BuildConfig;
+import org.edx.mobile.BuildConfig;
 
 import java.io.IOException;
 import java.util.Locale;

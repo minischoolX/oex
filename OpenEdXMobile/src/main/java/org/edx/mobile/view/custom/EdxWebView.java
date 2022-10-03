@@ -19,7 +19,7 @@ import org.edx.mobile.view.custom.cache.offline.ResourceInterceptor;
 import org.edx.mobile.view.custom.cache.utils.LogUtils;
 
 
-public class EdxWebView extends extends WebView implements CacheApi {
+public class EdxWebView extends WebView implements CacheApi {
 
     private boolean mRecycled = false;
 

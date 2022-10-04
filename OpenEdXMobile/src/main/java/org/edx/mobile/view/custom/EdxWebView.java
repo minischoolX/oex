@@ -33,6 +33,14 @@ public class EdxWebView extends WebView implements CacheApi {
         settings.setSupportZoom(true);
         settings.setLoadsImagesAutomatically(true);
         settings.setDomStorageEnabled(true);
+        settings.setAllowFileAccess(true);
+        settings.setBlockNetworkImage(true);
+        settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            settings.setAllowFileAccessFromFileURLs(true);
+            settings.setAllowUniversalAccessFromFileURLs(true);
+        }
+        settings.setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
         settings.setUserAgentString(
                 settings.getUserAgentString() + " " +
                         context.getString(R.string.app_name) + "/" +
@@ -78,10 +86,12 @@ public class EdxWebView extends WebView implements CacheApi {
     @Override
     public void setCacheMode(FastCacheMode mode, CacheConfig cacheConfig) {
         //TODO: add this
+        setCacheMode(mode, cacheConfig);
     }
 
     public void addResourceInterceptor(ResourceInterceptor interceptor) {
         //TODO: add this
+        addResourceInterceptor(interceptor);
     }
 
 }

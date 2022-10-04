@@ -42,6 +42,16 @@ import org.edx.mobile.logger.Logger;
 import org.edx.mobile.services.EdxCookieManager;
 import org.edx.mobile.util.NetworkUtil;
 import org.edx.mobile.util.WebViewUtil;
+//import org.edx.mobile.view.custom.cache.CacheApi;
+import org.edx.mobile.view.custom.cache.WebResource;
+import org.edx.mobile.view.custom.cache.WebViewCache;
+import org.edx.mobile.view.custom.cache.WebViewCacheImpl;
+import org.edx.mobile.view.custom.cache.config.CacheConfig;
+import org.edx.mobile.view.custom.cache.config.DefaultMimeTypeFilter;
+import org.edx.mobile.view.custom.cache.config.FastCacheMode;
+//import org.edx.mobile.view.custom.cache.offline.Destroyable;
+import org.edx.mobile.view.custom.cache.offline.Chain;
+import org.edx.mobile.view.custom.cache.offline.ResourceInterceptor;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -60,6 +70,14 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
     private boolean didReceiveError;
     private boolean isManuallyReloadable;
     private AuthenticatedWebviewBinding binding;
+
+    private static final String SCHEME_HTTP = "http";
+    private static final String SCHEME_HTTPS = "https";
+    private static final String METHOD_GET = "GET";
+    private WebViewCache mWebViewCache;
+    private final int mWebViewCacheMode;
+    private final String mUserAgent;
+    private EdxWebView mOwner;
 
     public AuthenticatedWebView(Context context) {
         super(context);
@@ -108,6 +126,12 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
         binding.webview.getSettings().setJavaScriptEnabled(true);
         webViewClient = new URLInterceptorWebViewClient(fragmentActivity, binding.webview, interceptAjaxRequest,
                 completionCallback) {
+
+            WebSettings settings = binding.webview.getSettings();
+            mWebViewCacheMode = settings.getCacheMode();
+            mUserAgent = settings.getUserAgentString();
+            mWebViewCache = new WebViewCacheImpl(binding.webview.getContext());
+
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 didReceiveError = true;
@@ -149,15 +173,15 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
             @Deprecated
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                return shouldOverrideUrlLoadingWrapper(Uri.parse(url)) || super.shouldOverrideUrlLoading(view, url);
+                return shouldOverrideUrlLoadingWrapper(view, Uri.parse(url)) || super.shouldOverrideUrlLoading(view, url);
             }
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                return shouldOverrideUrlLoadingWrapper(request.getUrl()) || super.shouldOverrideUrlLoading(view, request);
+                return shouldOverrideUrlLoadingWrapper(view, request.getUrl()) || super.shouldOverrideUrlLoading(view, request);
             }
 
-            public boolean shouldOverrideUrlLoadingWrapper(@NonNull Uri uri) {
+            public boolean shouldOverrideUrlLoadingWrapper(@NonNull WebView view, @NonNull Uri uri) {
                 String overrideUrl = uri.toString();
                 if (overrideUrl.contains("logout")) {
                     forceLogoutUser();
@@ -170,17 +194,76 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
                     pageUrlCallback.onUrlClick(true, uri.getQueryParameter("screen_name"));
                     return true;
                 }
+                if (overrideUrl.contains("xblock")) {
+                    view.loadUrl(url);
+                    return true;
+                }
                 return false;
             }
 
-            public void onPageFinished(WebView view, String url) {
-                if (!NetworkUtil.isConnected(getContext())) {
-                    showErrorView(getResources().getString(R.string.reset_no_network_message),
-                            R.drawable.ic_wifi);
-                    hideLoadingProgress();
-                    pageIsLoaded = false;
-                    return;
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+//                Context context = view.getContext().getApplicationContext();
+//                // suppress external links on ZeroRated network
+//                String url = request.getUrl().toString();
+//                return super.shouldInterceptRequest(view, request);
+
+                return onIntercept(view, request);
+
+            }
+
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            private WebResourceResponse onIntercept(WebView view, WebResourceRequest request) {
+//                if (mDelegate != null) {
+//                    WebResourceResponse response = mDelegate.shouldInterceptRequest(view, request);
+//                    if (response != null) {
+//                        return response;
+//                    }
+//                }
+                return loadFromWebViewCache(request);
+            }
+
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            private WebResourceResponse loadFromWebViewCache(WebResourceRequest request) {
+                String scheme = request.getUrl().getScheme().trim();
+                String method = request.getMethod().trim();
+                if ((TextUtils.equals(SCHEME_HTTP, scheme)
+                        || TextUtils.equals(SCHEME_HTTPS, scheme))
+                        && method.equalsIgnoreCase(METHOD_GET)) {
+                    return mWebViewCache.getResource(request, mWebViewCacheMode, mUserAgent);
                 }
+                return null;
+            }
+
+            @Override
+            public void setCacheMode(FastCacheMode mode, CacheConfig cacheConfig) {
+                if (mWebViewCache != null) {
+                    mWebViewCache.setCacheMode(mode, cacheConfig);
+                }
+            }
+
+            @Override
+            public void addResourceInterceptor(ResourceInterceptor interceptor) {
+                if (mWebViewCache != null) {
+                    mWebViewCache.addResourceInterceptor(interceptor);
+                }
+            }
+
+            public class CustomMimeTypeFilter extends DefaultMimeTypeFilter {
+                CustomMimeTypeFilter() {
+                    addMimeType("text/html");
+                }
+            }
+
+            public void onPageFinished(WebView view, String url) {
+//                if (!NetworkUtil.isConnected(getContext())) {
+//                    showErrorView(getResources().getString(R.string.reset_no_network_message),
+//                            R.drawable.ic_wifi);
+//                    hideLoadingProgress();
+//                    pageIsLoaded = false;
+//                    return;
+//                }
                 if (didReceiveError) {
                     didReceiveError = false;
                     return;
@@ -235,10 +318,10 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
             EventBus.getDefault().register(this);
         }
 
-        if (!NetworkUtil.isConnected(getContext())) {
-            showErrorMessage(R.string.reset_no_network_message, R.drawable.ic_wifi);
-            return;
-        }
+//        if (!NetworkUtil.isConnected(getContext())) {
+//            showErrorMessage(R.string.reset_no_network_message, R.drawable.ic_wifi);
+//            return;
+//        }
 
         showLoadingProgress();
 
@@ -249,6 +332,17 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
                 cookieManager.tryToRefreshSessionCookie();
             } else {
                 didReceiveError = false;
+                CacheConfig config = new CacheConfig.Builder(getContext())
+                        .setCacheDir(getContext().getExternalCacheDir() + File.separator + "webCache")
+                        .setExtensionFilter(new CustomMimeTypeFilter())
+                        .build();
+                binding.webview.setCacheMode(FastCacheMode.FORCE, config);
+                binding.webview.addResourceInterceptor(new ResourceInterceptor() {
+                    @Override
+                    public WebResource load(Chain chain) {
+                        return chain.process(chain.getRequest());
+                    }
+                });
                 binding.webview.loadUrl(url);
             }
         }

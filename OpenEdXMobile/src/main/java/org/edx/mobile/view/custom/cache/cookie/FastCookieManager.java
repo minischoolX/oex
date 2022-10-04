@@ -4,6 +4,7 @@ import android.content.Context;
 
 import org.edx.mobile.view.custom.cache.offline.Destroyable;
 
+import java.net.CookieStore;
 import java.util.ArrayList;
 import java.util.List;
 

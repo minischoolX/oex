@@ -26,6 +26,7 @@ import org.edx.mobile.util.AppConstants;
 import org.edx.mobile.util.ResourceUtil;
 import org.edx.mobile.util.images.ShareUtils;
 import org.edx.mobile.view.custom.URLInterceptorWebViewClient;
+import org.edx.mobile.view.custom.cache.FastWebView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +45,7 @@ public class CertificateFragment extends BaseFragment {
 
     EnrolledCoursesResponse courseData;
 
-    private WebView webview;
+    private FastWebView webview;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

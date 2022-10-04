@@ -12,6 +12,7 @@ import org.edx.mobile.view.custom.cache.offline.OfflineServerImpl;
 import org.edx.mobile.view.custom.cache.offline.ResourceInterceptor;
 import org.edx.mobile.view.custom.cache.utils.MimeTypeMapUtils;
 
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -25,7 +26,7 @@ public class WebViewCacheImpl implements WebViewCache {
     private OfflineServer mOfflineServer;
     private Context mContext;
 
-    public WebViewCacheImpl(Context context) {
+    WebViewCacheImpl(Context context) {
         mContext = context;
     }
 

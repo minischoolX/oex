@@ -8,7 +8,7 @@ import android.util.Log;
  */
 public class LogUtils {
 
-    private static final String TAG = "EdxWebView";
+    private static final String TAG = "FastWebView";
     public static boolean DEBUG = false;
 
     public static void d(String message) {

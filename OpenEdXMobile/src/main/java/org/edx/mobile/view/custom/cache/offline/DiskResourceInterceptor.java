@@ -1,6 +1,7 @@
 package org.edx.mobile.view.custom.cache.offline;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.edx.mobile.view.custom.cache.WebResource;
 import org.edx.mobile.view.custom.cache.config.CacheConfig;

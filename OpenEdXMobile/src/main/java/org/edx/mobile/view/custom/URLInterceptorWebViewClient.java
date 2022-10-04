@@ -27,6 +27,7 @@ import org.edx.mobile.util.ConfigUtil;
 import org.edx.mobile.util.FileUtil;
 import org.edx.mobile.util.NetworkUtil;
 import org.edx.mobile.util.links.WebViewLink;
+import org.edx.mobile.view.custom.cache.FastWebView;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -87,7 +88,7 @@ public class URLInterceptorWebViewClient extends WebViewClient {
     private ValueCallback<Uri[]> filePathCallback;
 
     @Inject
-    public URLInterceptorWebViewClient(@ActivityContext FragmentActivity activity, WebView webView,
+    public URLInterceptorWebViewClient(@ActivityContext FragmentActivity activity, FastWebView webView,
                                        boolean interceptAjaxRequest,
                                        CompletionCallback completionCallback) {
         this.activity = activity;
@@ -125,7 +126,7 @@ public class URLInterceptorWebViewClient extends WebViewClient {
      *
      * @param webView
      */
-    private void setupWebView(WebView webView) {
+    private void setupWebView(FastWebView webView) {
         webView.setWebViewClient(this);
         //We need to hide the loading progress if the Page starts rendering.
         webView.setWebChromeClient(new WebChromeClient() {
@@ -148,6 +149,7 @@ public class URLInterceptorWebViewClient extends WebViewClient {
                 }
             }
 
+            //TODO: implement these methodsa
             @Override
             public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
                 URLInterceptorWebViewClient.this.filePathCallback = filePathCallback;
@@ -396,6 +398,7 @@ public class URLInterceptorWebViewClient extends WebViewClient {
          * @param webView  The WebView in which a page is being loaded.
          * @param progress Progress of the page being loaded.
          */
+        //TODO: implement these methodsa
         void onPageLoadProgressChanged(WebView webView, int progress);
     }
 

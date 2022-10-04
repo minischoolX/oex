@@ -19,6 +19,7 @@ import org.edx.mobile.R;
 import org.edx.mobile.base.BaseFragmentActivity;
 import org.edx.mobile.util.AppConstants;
 import org.edx.mobile.view.custom.URLInterceptorWebViewClient;
+import org.edx.mobile.view.custom.cache.FastWebView;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -30,7 +31,7 @@ public class WebViewActivity extends BaseFragmentActivity {
 
     public static final String PARAM_INTENT_FILE_LINK = "fileLink";
 
-    WebView webView;
+    FastWebView webView;
 
     public static Intent newIntent(@NonNull Context context, @NonNull String url, @Nullable String title) {
         return new Intent(context, WebViewActivity.class)
@@ -57,7 +58,7 @@ public class WebViewActivity extends BaseFragmentActivity {
         final CircularProgressIndicator progress = (CircularProgressIndicator) findViewById(R.id.loading_indicator);
         progress.setVisibility(View.GONE);
 
-        webView = (WebView) findViewById(R.id.webView);
+        webView = (FastWebView) findViewById(R.id.webView);
         final URLInterceptorWebViewClient client =
                 new URLInterceptorWebViewClient(this, webView, false, null);
         client.setPageStatusListener(new URLInterceptorWebViewClient.IPageStatusListener() {

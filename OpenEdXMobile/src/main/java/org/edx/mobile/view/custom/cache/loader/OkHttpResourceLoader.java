@@ -19,6 +19,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import okhttp3.internal.Util;
 
 import static android.webkit.WebSettings.LOAD_CACHE_ELSE_NETWORK;
 import static android.webkit.WebSettings.LOAD_CACHE_ONLY;
@@ -34,7 +35,7 @@ import static java.net.HttpURLConnection.HTTP_NOT_MODIFIED;
 public class OkHttpResourceLoader implements ResourceLoader {
 
     private static final String HEADER_USER_AGENT = "User-Agent";
-    private static final String DEFAULT_USER_AGENT = "EdxWebView" + BuildConfig.VERSION_NAME;
+    private static final String DEFAULT_USER_AGENT = "FastWebView" + BuildConfig.VERSION_NAME;
     private Context mContext;
 
     public OkHttpResourceLoader(Context context) {

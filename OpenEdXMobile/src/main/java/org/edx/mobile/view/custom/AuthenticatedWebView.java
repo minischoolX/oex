@@ -131,7 +131,7 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
             WebSettings settings =mOwner.getSettings();
             mWebViewCacheMode = settings.getCacheMode();
             mUserAgent = settings.getUserAgentString();
-            mWebViewCache = new WebViewCacheImpl(binding.webview.getContext());
+            mWebViewCache = new WebViewCacheImpl(mOwner.getContext());
 
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {

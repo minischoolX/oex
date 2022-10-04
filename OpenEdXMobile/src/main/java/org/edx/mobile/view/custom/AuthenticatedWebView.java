@@ -127,7 +127,8 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
         webViewClient = new URLInterceptorWebViewClient(fragmentActivity, binding.webview, interceptAjaxRequest,
                 completionCallback) {
 
-            WebSettings settings = binding.webview.getSettings();
+            mOwner = binding.webview;
+            WebSettings settings =mOwner.getSettings();
             mWebViewCacheMode = settings.getCacheMode();
             mUserAgent = settings.getUserAgentString();
             mWebViewCache = new WebViewCacheImpl(binding.webview.getContext());

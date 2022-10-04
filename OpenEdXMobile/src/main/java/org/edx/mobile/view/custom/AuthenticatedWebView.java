@@ -96,7 +96,8 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
 
     private void init() {
         binding = AuthenticatedWebviewBinding.inflate(LayoutInflater.from(getContext()), this, true);
-        fullScreenErrorNotification = new FullScreenErrorNotification(binding.webview);
+        fullScreenErrorNotification = new FullScreenErrorNotification(mOwner);
+//        fullScreenErrorNotification = new FullScreenErrorNotification(binding.webview);
     }
 
     public URLInterceptorWebViewClient getWebViewClient() {
@@ -104,7 +105,8 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
     }
 
     public WebView getWebView() {
-        return binding.webview;
+        return mOwner;
+//        return binding.webview;
     }
 
     /**
@@ -123,11 +125,11 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
                             boolean isManuallyReloadable, boolean interceptAjaxRequest,
                             URLInterceptorWebViewClient.CompletionCallback completionCallback, OverridePageUrlCallback pageUrlCallback) {
         this.isManuallyReloadable = isManuallyReloadable;
-        binding.webview.getSettings().setJavaScriptEnabled(true);
-        webViewClient = new URLInterceptorWebViewClient(fragmentActivity, binding.webview, interceptAjaxRequest,
+        mOwner.getSettings().setJavaScriptEnabled(true);
+//        binding.webview.getSettings().setJavaScriptEnabled(true);
+        webViewClient = new URLInterceptorWebViewClient(fragmentActivity, mOwner, interceptAjaxRequest,
                 completionCallback) {
 
-            mOwner = binding.webview;
             WebSettings settings =mOwner.getSettings();
             mWebViewCacheMode = settings.getCacheMode();
             mUserAgent = settings.getUserAgentString();
@@ -296,7 +298,8 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
         this.url = url;
         this.javascript = javascript;
         if (!TextUtils.isEmpty(javascript)) {
-            binding.webview.addJavascriptInterface(new JsInterface(), "JsInterface");
+            mOwner.addJavascriptInterface(new JsInterface(), "JsInterface");
+//            binding.webview.addJavascriptInterface(new JsInterface(), "JsInterface");
         }
         tryToLoadWebView(forceLoad);
     }
@@ -305,7 +308,8 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
         if (listener == null) {
             listener = value -> hideLoadingProgress();
         }
-        binding.webview.evaluateJavascript(javascript, listener);
+        mOwner.evaluateJavascript(javascript, listener);
+//        binding.webview.evaluateJavascript(javascript, listener);
     }
 
     private void tryToLoadWebView(boolean forceLoad) {
@@ -337,34 +341,40 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
                         .setCacheDir(getContext().getExternalCacheDir() + File.separator + "webCache")
                         .setExtensionFilter(new CustomMimeTypeFilter())
                         .build();
-                binding.webview.setCacheMode(FastCacheMode.FORCE, config);
-                binding.webview.addResourceInterceptor(new ResourceInterceptor() {
+                mOwner.setCacheMode(FastCacheMode.FORCE, config);
+                mOwner.addResourceInterceptor(new ResourceInterceptor() {
+//                binding.webview.setCacheMode(FastCacheMode.FORCE, config);
+//                binding.webview.addResourceInterceptor(new ResourceInterceptor() {
                     @Override
                     public WebResource load(Chain chain) {
                         return chain.process(chain.getRequest());
                     }
                 });
-                binding.webview.loadUrl(url);
+                mOwner.loadUrl(url);
+//                binding.webview.loadUrl(url);
             }
         }
     }
 
     public void tryToClearWebView() {
         pageIsLoaded = false;
-        WebViewUtil.clearWebviewHtml(binding.webview);
+        WebViewUtil.clearWebviewHtml(mOwner);
+//        WebViewUtil.clearWebviewHtml(binding.webview);
     }
 
     private void showLoadingProgress() {
         if (!TextUtils.isEmpty(javascript)) {
             // Hide webview to disable a11y during loading page, disabling a11y is not working in this case
-            binding.webview.setVisibility(View.GONE);
+            mOwner.setVisibility(View.GONE);
+//            binding.webview.setVisibility(View.GONE);
         }
         binding.loadingIndicator.loadingIndicator.setVisibility(View.VISIBLE);
     }
 
     private void hideLoadingProgress() {
         binding.loadingIndicator.loadingIndicator.setVisibility(View.GONE);
-        binding.webview.setVisibility(didReceiveError ? View.GONE : View.VISIBLE);
+        mOwner.setVisibility(didReceiveError ? View.GONE : View.VISIBLE);
+//        binding.webview.setVisibility(didReceiveError ? View.GONE : View.VISIBLE);
     }
 
     /**
@@ -447,11 +457,13 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
     }
 
     public void onResume() {
-        binding.webview.onResume();
+        mOwner.onResume();
+//        binding.webview.onResume();
     }
 
     public void onPause() {
-        binding.webview.onPause();
+        mOwner.onPause();
+//        binding.webview.onPause();
     }
 
     public void onDestroyView() {
@@ -461,7 +473,8 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
     }
 
     public void onDestroy() {
-        binding.webview.destroy();
+        mOwner.destroy();
+//        binding.webview.destroy();
     }
 
     @Override
@@ -477,9 +490,11 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
         @JavascriptInterface
         public void showErrorMessage(@NonNull final String errorMsg) {
             if (!TextUtils.isEmpty(errorMsg)) {
-                binding.webview.post(() -> {
+                mOwner.post(() -> {
+//                binding.webview.post(() -> {
                     didReceiveError = true;
-                    binding.webview.setVisibility(View.GONE);
+                    mOwener.setVisibility(View.GONE);
+//                    binding.webview.setVisibility(View.GONE);
                     showErrorView(errorMsg, R.drawable.ic_error);
                 });
             }

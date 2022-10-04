@@ -8,7 +8,7 @@ import org.edx.mobile.view.custom.cache.utils.StreamUtils;
 import org.edx.mobile.view.custom.cache.utils.lru.DiskLruCache;
 import org.edx.mobile.view.custom.cache.utils.HeaderUtils;
 import org.edx.mobile.view.custom.cache.utils.LogUtils;
-import com.edx.mobile.BuildConfig;
+import org.edx.mobile.BuildConfig;
 
 import java.io.File;
 import java.io.IOException;

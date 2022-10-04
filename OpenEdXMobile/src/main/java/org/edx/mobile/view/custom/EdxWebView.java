@@ -52,12 +52,12 @@ public class EdxWebView extends WebView implements CacheApi {
 
     @Override
     public void destroy() {
-        release();
+//        release();
         super.destroy();
     }
 
 
-    public void release() {
+/**    public void release() {
         stopLoading();
         loadUrl("");
         setRecycled(true);
@@ -78,7 +78,7 @@ public class EdxWebView extends WebView implements CacheApi {
         }
         getFastCookieManager().destroy();
     }
-
+*/
     public void setCacheMode(FastCacheMode mode) {
         setCacheMode(mode, null);
     }

@@ -1,10 +1,11 @@
 package org.edx.mobile.view.custom.cache;
 
+import androidx.annotation.RequiresApi;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Message;
-import android.support.annotation.RequiresApi;
+//import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.webkit.ClientCertRequest;

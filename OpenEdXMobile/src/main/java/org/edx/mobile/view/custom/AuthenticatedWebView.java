@@ -43,6 +43,26 @@ import org.edx.mobile.services.EdxCookieManager;
 import org.edx.mobile.util.NetworkUtil;
 import org.edx.mobile.util.WebViewUtil;
 import org.edx.mobile.view.custom.cache.FastWebView;
+
+
+import org.edx.mobile.view.custom.cache.FastWebViewPool;
+
+import org.edx.mobile.view.custom.cache.WebResource;
+
+import org.edx.mobile.view.custom.cache.config.CacheConfig;
+
+import org.edx.mobile.view.custom.cache.config.DefaultMimeTypeFilter;
+
+import org.edx.mobile.view.custom.cache.config.FastCacheMode;
+
+
+
+
+
+import org.edx.mobile.view.custom.cache.offline.Chain;
+
+import org.edx.mobile.view.custom.cache.offline.ResourceInterceptor;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -171,17 +191,20 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
                     pageUrlCallback.onUrlClick(true, uri.getQueryParameter("screen_name"));
                     return true;
                 }
+                if (overrideUrl.contains("xblock")) {
+                    return true;
+                }
                 return false;
             }
 
             public void onPageFinished(WebView view, String url) {
-                if (!NetworkUtil.isConnected(getContext())) {
-                    showErrorView(getResources().getString(R.string.reset_no_network_message),
-                            R.drawable.ic_wifi);
-                    hideLoadingProgress();
-                    pageIsLoaded = false;
-                    return;
-                }
+  //              if (!NetworkUtil.isConnected(getContext())) {
+  //                  showErrorView(getResources().getString(R.string.reset_no_network_message),
+  //                          R.drawable.ic_wifi);
+  //                  hideLoadingProgress();
+  //                  pageIsLoaded = false;
+  //                  return;
+  //              }
                 if (didReceiveError) {
                     didReceiveError = false;
                     return;
@@ -236,10 +259,10 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
             EventBus.getDefault().register(this);
         }
 
-        if (!NetworkUtil.isConnected(getContext())) {
-            showErrorMessage(R.string.reset_no_network_message, R.drawable.ic_wifi);
-            return;
-        }
+//        if (!NetworkUtil.isConnected(getContext())) {
+//            showErrorMessage(R.string.reset_no_network_message, R.drawable.ic_wifi);
+//            return;
+//        }
 
         showLoadingProgress();
 
@@ -250,11 +273,47 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
                 cookieManager.tryToRefreshSessionCookie();
             } else {
                 didReceiveError = false;
+                binding.webview.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+
+                    binding.webview.getSettings().setAllowFileAccessFromFileURLs(true);
+
+                    binding.webview.getSettings().setAllowUniversalAccessFromFileURLs(true);
+
+                }
+                CacheConfig config = new CacheConfig.Builder(getContext())
+
+                        .setCacheDir(getContext().getExternalCacheDir() + File.separator + "custom")
+
+                        .setExtensionFilter(new CustomMimeTypeFilter())
+
+                        .build();
+
+                binding.webview.setCacheMode(FastCacheMode.FORCE, config);
+
+                binding.webview.addResourceInterceptor(new ResourceInterceptor() {
+
+                    @Override
+
+                    public WebResource load(Chain chain) {
+
+                        return chain.process(chain.getRequest());
+
+                    }
+
+                });
                 binding.webview.loadUrl(url);
             }
         }
     }
 
+    public class CustomMimeTypeFilter extends DefaultMimeTypeFilter {
+        CustomMimeTypeFilter() {
+            addMimeType("text/html");
+        }
+    }
+    
     public void tryToClearWebView() {
         pageIsLoaded = false;
         WebViewUtil.clearWebviewHtml(binding.webview);

@@ -15,6 +15,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 
@@ -66,6 +67,7 @@ import org.edx.mobile.view.custom.cache.offline.ResourceInterceptor;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.File;
 /**
  * A custom webview which authenticates the user before loading a page,
  * Javascript can also be passed in arguments for evaluation.

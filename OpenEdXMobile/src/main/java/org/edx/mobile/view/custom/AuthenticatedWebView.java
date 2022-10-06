@@ -146,7 +146,7 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
         });
         mWebViewCacheMode = binding.webview.getSettings().getCacheMode();
         mUserAgent = binding.webview.getSettings().getUserAgentString();
-        mWebViewCache = new WebCacheImpl(binding.webview(getContext()));
+        mWebViewCache = new WebCacheImpl(binding.webview);
         webViewClient = new URLInterceptorWebViewClient(fragmentActivity, binding.webview, interceptAjaxRequest,
                 completionCallback) {
             @Override
@@ -220,7 +220,7 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
 
             @Override
                 public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-                    String interceptUrl = request.getUrl();
+                    String interceptUrl = request.getUrl().toString();
                     if (interceptUrl.contains("xblock")) {
                         return onIntercept(view, request);
                     }

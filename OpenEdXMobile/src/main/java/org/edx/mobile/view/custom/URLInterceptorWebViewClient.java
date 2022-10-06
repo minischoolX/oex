@@ -28,11 +28,11 @@ import org.edx.mobile.util.ConfigUtil;
 import org.edx.mobile.util.FileUtil;
 import org.edx.mobile.util.NetworkUtil;
 import org.edx.mobile.util.links.WebViewLink;
-import org.edx.mobile.view.custom.cache.FastOpenApi;
+//import org.edx.mobile.view.custom.cache.FastOpenApi;
 import org.edx.mobile.view.custom.cache.WebViewCache;
 import org.edx.mobile.view.custom.cache.config.CacheConfig;
-import org.edx.mobile.view.custom.cache.config.FastCacheMode;
-import org.edx.mobile.view.custom.cache.offline.ResourceInterceptor;
+//import org.edx.mobile.view.custom.cache.config.FastCacheMode;
+//import org.edx.mobile.view.custom.cache.offline.ResourceInterceptor;
 import org.edx.mobile.BuildConfig;
 
 import java.io.IOException;
@@ -58,7 +58,7 @@ import dagger.hilt.android.qualifiers.ActivityContext;
  * than the current one, then treats it as an external link and may open in external browser.
  */
 @Singleton
-public class URLInterceptorWebViewClient extends WebViewClient implements FastOpenApi {
+public class URLInterceptorWebViewClient extends WebViewClient {
 
     private final Logger logger = new Logger(URLInterceptorWebViewClient.class);
     private final FragmentActivity activity;
@@ -351,20 +351,6 @@ public class URLInterceptorWebViewClient extends WebViewClient implements FastOp
             return mWebViewCache.getResource(request, mWebViewCacheMode, mUserAgent);
         }
         return null;
-    }
-
-    @Override
-    public void setCacheMode(FastCacheMode mode, CacheConfig cacheConfig) {
-        if (mWebViewCache != null) {
-            mWebViewCache.setCacheMode(mode, cacheConfig);
-        }
-    }
-
-    @Override
-    public void addResourceInterceptor(ResourceInterceptor interceptor) {
-        if (mWebViewCache != null) {
-            mWebViewCache.addResourceInterceptor(interceptor);
-        }
     }
 
     /**

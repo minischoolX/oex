@@ -58,7 +58,7 @@ import java.io.File;
  * A custom webview which authenticates the user before loading a page,
  * Javascript can also be passed in arguments for evaluation.
  */
-public class AuthenticatedWebView extends FrameLayout implements RefreshListener, FastOpenApi {
+public class AuthenticatedWebView extends FrameLayout implements RefreshListener {
     protected final Logger logger = new Logger(getClass().getName());
 
     private FullScreenErrorNotification fullScreenErrorNotification;
@@ -137,8 +137,8 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
                 .setCacheDir(getContext().getExternalCacheDir() + File.separator + "custom")
                 .setExtensionFilter(new CustomMimeTypeFilter())
                 .build();
-        binding.webview.setCacheMode(FastCacheMode.FORCE, config);
-        binding.webview.addResourceInterceptor(new ResourceInterceptor() {
+        setCacheMode(FastCacheMode.FORCE, config);
+        addResourceInterceptor(new ResourceInterceptor() {
             @Override
             public WebResource load(Chain chain) {
                 return chain.process(chain.getRequest());
@@ -242,20 +242,6 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
                     return null;
                 }
 
-                @Override
-                public void setCacheMode(FastCacheMode mode, CacheConfig cacheConfig) {
-                    if (mWebViewCache != null) {
-                        mWebViewCache.setCacheMode(mode, cacheConfig);
-                    }
-                }
-
-                @Override
-                public void addResourceInterceptor(ResourceInterceptor interceptor) {
-                    if (mWebViewCache != null) {
-                        mWebViewCache.addResourceInterceptor(interceptor);
-                    }
-                }
-
                 public void onPageFinished(WebView view, String url) {
                     if (!NetworkUtil.isConnected(getContext())) {
                     showErrorView(getResources().getString(R.string.reset_no_network_message),
@@ -285,6 +271,20 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
         };
 
         webViewClient.setAllLinksAsExternal(isAllLinksExternal);
+    }
+
+    @Override
+    public void setCacheMode(FastCacheMode mode, CacheConfig cacheConfig) {
+        if (mWebViewCache != null) {
+            mWebViewCache.setCacheMode(mode, cacheConfig);
+        }
+    }
+
+    @Override
+    public void addResourceInterceptor(ResourceInterceptor interceptor) {
+        if (mWebViewCache != null) {
+            mWebViewCache.addResourceInterceptor(interceptor);
+        }
     }
 
     public class CustomMimeTypeFilter extends DefaultMimeTypeFilter {

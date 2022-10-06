@@ -47,6 +47,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import org.edx.mobile.view.custom.cache.*;
+import org.edx.mobile.view.custom.cache.WebViewCacheImpl;
 import org.edx.mobile.view.custom.cache.config.CacheConfig;
 import org.edx.mobile.view.custom.cache.config.FastCacheMode;
 import org.edx.mobile.view.custom.cache.offline.ResourceInterceptor;

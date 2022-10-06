@@ -145,11 +145,11 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
                 return chain.process(chain.getRequest());
             }
         });
-        mWebViewCacheMode = binding.webview.getSettings().getCacheMode();
-        mUserAgent = binding.webview.getSettings().getUserAgentString();
-        mWebViewCache = new WebCacheImpl(binding.webview);
         webViewClient = new URLInterceptorWebViewClient(fragmentActivity, binding.webview, interceptAjaxRequest,
                 completionCallback) {
+            mWebViewCacheMode = binding.webview.getSettings().getCacheMode();
+            mUserAgent = binding.webview.getSettings().getUserAgentString();
+            mWebViewCache = new WebCacheImpl(binding.webview(this);
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 didReceiveError = true;

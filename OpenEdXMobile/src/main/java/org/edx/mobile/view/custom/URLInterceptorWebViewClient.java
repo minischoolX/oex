@@ -9,6 +9,7 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -27,7 +28,12 @@ import org.edx.mobile.util.ConfigUtil;
 import org.edx.mobile.util.FileUtil;
 import org.edx.mobile.util.NetworkUtil;
 import org.edx.mobile.util.links.WebViewLink;
-import org.edx.mobile.view.custom.cache.FastWebView;
+import org.edx.mobile.view.custom.cache.FastCacheApi;
+import org.edx.mobile.view.custom.cache.WebViewCache;
+import org.edx.mobile.view.custom.cache.config.CacheConfig;
+import org.edx.mobile.view.custom.cache.config.FastCacheMode;
+import org.edx.mobile.view.custom.cache.offline.ResourceInterceptor;
+import org.edx.mobile.BuildConfig;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -52,7 +58,7 @@ import dagger.hilt.android.qualifiers.ActivityContext;
  * than the current one, then treats it as an external link and may open in external browser.
  */
 @Singleton
-public class URLInterceptorWebViewClient extends WebViewClient {
+public class URLInterceptorWebViewClient extends WebViewClient implements FastCacheApi {
 
     private final Logger logger = new Logger(URLInterceptorWebViewClient.class);
     private final FragmentActivity activity;
@@ -64,6 +70,11 @@ public class URLInterceptorWebViewClient extends WebViewClient {
     private boolean ajaxInterceptorEmbed = false;
     Config config;
     AnalyticsRegistry analyticsRegistry;
+
+    private static final String SCHEME_HTTP = "http";
+    private static final String SCHEME_HTTPS = "https";
+    private static final String METHOD_GET = "GET";
+    private WebViewCache mWebViewCache;
 
     /**
      * Tells if the page loading has been finished or not.
@@ -88,7 +99,7 @@ public class URLInterceptorWebViewClient extends WebViewClient {
     private ValueCallback<Uri[]> filePathCallback;
 
     @Inject
-    public URLInterceptorWebViewClient(@ActivityContext FragmentActivity activity, FastWebView webView,
+    public URLInterceptorWebViewClient(@ActivityContext FragmentActivity activity, WebView webView,
                                        boolean interceptAjaxRequest,
                                        CompletionCallback completionCallback) {
         this.activity = activity;
@@ -126,7 +137,8 @@ public class URLInterceptorWebViewClient extends WebViewClient {
      *
      * @param webView
      */
-    private void setupWebView(FastWebView webView) {
+    private void setupWebView(WebView webView) {
+        mWebViewCache = new WebViewCacheImpl(webView.getContext());
         webView.setWebViewClient(this);
         //We need to hide the loading progress if the Page starts rendering.
         webView.setWebChromeClient(new WebChromeClient() {
@@ -149,7 +161,6 @@ public class URLInterceptorWebViewClient extends WebViewClient {
                 }
             }
 
-            //TODO: implement these methodsa
             @Override
             public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
                 URLInterceptorWebViewClient.this.filePathCallback = filePathCallback;
@@ -215,15 +226,15 @@ public class URLInterceptorWebViewClient extends WebViewClient {
     @Deprecated
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        return shouldOverrideUrlLoadingWrapper(url);
+        return shouldOverrideUrlLoadingWrapper(view, url);
     }
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-        return shouldOverrideUrlLoadingWrapper(request.getUrl().toString());
+        return shouldOverrideUrlLoadingWrapper(view, request.getUrl().toString());
     }
 
-    private boolean shouldOverrideUrlLoadingWrapper(String url) {
+    private boolean shouldOverrideUrlLoadingWrapper(WebView view, String url) {
         if (actionListener == null) {
             logger.warn("you have not set IActionLister to this WebViewClient, " +
                     "you might miss some event");
@@ -245,6 +256,9 @@ public class URLInterceptorWebViewClient extends WebViewClient {
             // return true means the host application handles the url
             // this should open the URL in the browser with user's confirmation
             BrowserUtil.showOpenInBrowserDialog(activity, config.getPlatformName(), url, analyticsRegistry, true);
+            return true;
+        } else if (url.contains("xblock")) {
+            view.loadUrl(url);
             return true;
         } else {
             // return false means the current WebView handles the url.
@@ -301,7 +315,56 @@ public class URLInterceptorWebViewClient extends WebViewClient {
                 && NetworkUtil.isConnectedMobile(context)) {
             return new WebResourceResponse("text/html", StandardCharsets.UTF_8.name(), null);
         }
+
+        if (url.contains("xblock")) {
+            return onIntercept(view, request);
+        }
         return super.shouldInterceptRequest(view, request);
+    }
+
+    @TargetApi(Build.VERSION_CODES.L)
+    private WebResourceResponse onIntercept(WebView view, WebResourceRequest request) {
+//        if (mDelegate != null) {
+//            WebResourceResponse response = mDelegate.shouldInterceptRequest(view, request);
+//            if (response != null) {
+//                return response;
+//            }
+//        }
+        return loadFromWebViewCache(request);
+    }
+
+    @TargetApi(Build.VERSION_CODES.L)
+    private WebResourceResponse loadFromWebViewCache(WebResourceRequest request) {
+        String scheme = request.getUrl().getScheme().trim();
+        String method = request.getMethod().trim();
+        if ((TextUtils.equals(SCHEME_HTTP, scheme)
+                || TextUtils.equals(SCHEME_HTTPS, scheme))
+                && method.equalsIgnoreCase(METHOD_GET)) {
+//            mWebViewCache = new WebViewCacheImpl(context);
+            WebSettings settings = WebView.getSettings();
+            settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+            int mWebViewCacheMode = settings.getCacheMode();
+            String mUserAgent = settings.getUserAgentString() + " " +
+                        context.getString(R.string.app_name) + "/" +
+                        BuildConfig.APPLICATION_ID + "/" +
+                        BuildConfig.VERSION_NAME;
+            return mWebViewCache.getResource(request, mWebViewCacheMode, mUserAgent);
+        }
+        return null;
+    }
+
+    @Override
+    public void setCacheMode(FastCacheMode mode, CacheConfig cacheConfig) {
+        if (mWebViewCache != null) {
+            mWebViewCache.setCacheMode(mode, cacheConfig);
+        }
+    }
+
+    @Override
+    public void addResourceInterceptor(ResourceInterceptor interceptor) {
+        if (mWebViewCache != null) {
+            mWebViewCache.addResourceInterceptor(interceptor);
+        }
     }
 
     /**
@@ -398,7 +461,6 @@ public class URLInterceptorWebViewClient extends WebViewClient {
          * @param webView  The WebView in which a page is being loaded.
          * @param progress Progress of the page being loaded.
          */
-        //TODO: implement these methodsa
         void onPageLoadProgressChanged(WebView webView, int progress);
     }
 

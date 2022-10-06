@@ -92,7 +92,6 @@ public class WebViewProgramFragment extends AuthenticatedWebViewFragment {
                     onPageFinished();
                 }
 
-                //TODO: implement these methodsa
                 @Override
                 public void onPageLoadProgressChanged(WebView webView, int progress) {
 

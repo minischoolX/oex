@@ -142,7 +142,6 @@ public class CourseUnitWebViewFragment extends CourseUnitFragment {
                 isPageLoading = false;
             }
 
-            //TODO: implement these methodsa
             @Override
             public void onPageLoadProgressChanged(WebView webView, int progress) {
             }

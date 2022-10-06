@@ -15,7 +15,6 @@ import org.edx.mobile.http.notifications.FullScreenErrorNotification;
 import org.edx.mobile.http.provider.OkHttpClientProvider;
 import org.edx.mobile.interfaces.WebViewStatusListener;
 import org.edx.mobile.logger.Logger;
-import org.edx.mobile.view.custom.cache.FastWebView;
 
 import java.io.IOException;
 
@@ -53,7 +52,7 @@ public class WebViewUtil {
     /**
      * Clears content of the WebView and loads {@link #EMPTY_HTML} in it.
      */
-    public static void clearWebviewHtml(@Nullable FastWebView webView) {
+    public static void clearWebviewHtml(@Nullable WebView webView) {
         if (webView != null) {
             webView.loadData(EMPTY_HTML, "text/html", "UTF-8");
         }
@@ -79,7 +78,7 @@ public class WebViewUtil {
      * @param okHttpClientProvider The utility to make server calls.
      */
     public static void loadUrlBasedOnOsVersion(@NonNull final Context context,
-                                               @NonNull final FastWebView webView,
+                                               @NonNull final WebView webView,
                                                @NonNull final String url,
                                                @NonNull final WebViewStatusListener viewInterface,
                                                @NonNull final FullScreenErrorNotification errorNotification,
@@ -110,16 +109,16 @@ public class WebViewUtil {
      * @param actionListener       The callback to be invoked when the action button is clicked.
      */
     public static void loadUrlBasedOnOsVersion(@NonNull final Context context,
-                                               @NonNull final FastWebView webView,
+                                               @NonNull final WebView webView,
                                                @NonNull final String url,
                                                @NonNull final WebViewStatusListener viewInterface,
                                                @NonNull final FullScreenErrorNotification errorNotification,
                                                @NonNull OkHttpClientProvider okHttpClientProvider,
                                                @StringRes final int actionTextResId,
                                                @Nullable final View.OnClickListener actionListener) {
-//        if (!NetworkUtil.isConnected(context)) {
-//            errorNotification.showError(context, new IOException(), actionTextResId, actionListener);
-//        } else {
+        if (!NetworkUtil.isConnected(context)) {
+            errorNotification.showError(context, new IOException(), actionTextResId, actionListener);
+        } else {
             errorNotification.hideError();
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                 viewInterface.showLoadingProgress();
@@ -162,6 +161,6 @@ public class WebViewUtil {
             } else {
                 webView.loadUrl(url);
             }
-//        }
+        }
     }
 }

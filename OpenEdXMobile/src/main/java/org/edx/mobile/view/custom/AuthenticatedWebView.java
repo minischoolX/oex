@@ -42,7 +42,6 @@ import org.edx.mobile.logger.Logger;
 import org.edx.mobile.services.EdxCookieManager;
 import org.edx.mobile.util.NetworkUtil;
 import org.edx.mobile.util.WebViewUtil;
-import org.edx.mobile.view.custom.cache.FastWebView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -86,7 +85,7 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
         return webViewClient;
     }
 
-    public FastWebView getWebView() {
+    public WebView getWebView() {
         return binding.webview;
     }
 

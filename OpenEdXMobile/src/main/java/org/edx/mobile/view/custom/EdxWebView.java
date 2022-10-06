@@ -4,13 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.webkit.WebSettings;
-//import android.webkit.WebView;
+import android.webkit.WebView;
 
 import org.edx.mobile.BuildConfig;
 import org.edx.mobile.R;
-import org.edx.mobile.view.custom.cache.FastWebView;
 
-public class EdxWebView extends FastWebView {
+public class EdxWebView extends WebView {
     @SuppressLint("SetJavaScriptEnabled")
     public EdxWebView(Context context, AttributeSet attrs) {
         super(context, attrs);

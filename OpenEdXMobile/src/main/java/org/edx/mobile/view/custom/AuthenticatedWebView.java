@@ -134,6 +134,8 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
         binding.webview.getSettings().setAllowFileAccessFromFileURLs(true);
         binding.webview.getSettings().setAllowUniversalAccessFromFileURLs(true);
         binding.webview.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
+        mWebViewCacheMode = binding.webview.getSettings().getCacheMode();
+        mUserAgent = binding.webview.getSettings().getUserAgentString();
         CacheConfig config = new CacheConfig.Builder(getContext())
                 .setCacheDir(getContext().getExternalCacheDir() + File.separator + "custom")
                 .setExtensionFilter(new CustomMimeTypeFilter())
@@ -147,9 +149,7 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
         });
         webViewClient = new URLInterceptorWebViewClient(fragmentActivity, binding.webview, interceptAjaxRequest,
                 completionCallback) {
-            mWebViewCacheMode = binding.webview.getSettings().getCacheMode();
-            mUserAgent = binding.webview.getSettings().getUserAgentString();
-            mWebViewCache = new WebCacheImpl(binding.webview(this);
+            mWebViewCache = new WebCacheImpl(binding.webview(this));
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 didReceiveError = true;

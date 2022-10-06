@@ -74,8 +74,8 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
     private static final String SCHEME_HTTPS = "https";
     private static final String METHOD_GET = "GET";
     private WebViewCache mWebViewCache;
-    private final int mWebViewCacheMode;
-    private final String mUserAgent;
+    private int mWebViewCacheMode;
+    private String mUserAgent;
 
 
     public AuthenticatedWebView(Context context) {
@@ -146,7 +146,7 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
         });
         mWebViewCacheMode = binding.webview.getSettings().getCacheMode();
         mUserAgent = binding.webview.getSettings().getUserAgentString();
-        mWebViewCache = new WebCacheImpl(binding.webview.getContext());
+        mWebViewCache = new WebCacheImpl(binding.webview(getContext()));
         webViewClient = new URLInterceptorWebViewClient(fragmentActivity, binding.webview, interceptAjaxRequest,
                 completionCallback) {
             @Override
@@ -220,7 +220,7 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
 
             @Override
                 public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-                    String interceptUrl = request.getUrl().trim();
+                    String interceptUrl = request.getUrl();
                     if (interceptUrl.contains("xblock")) {
                         return onIntercept(view, request);
                     }
@@ -273,14 +273,14 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
         webViewClient.setAllLinksAsExternal(isAllLinksExternal);
     }
 
-    @Override
+//    @Override
     public void setCacheMode(FastCacheMode mode, CacheConfig cacheConfig) {
         if (mWebViewCache != null) {
             mWebViewCache.setCacheMode(mode, cacheConfig);
         }
     }
 
-    @Override
+//    @Override
     public void addResourceInterceptor(ResourceInterceptor interceptor) {
         if (mWebViewCache != null) {
             mWebViewCache.addResourceInterceptor(interceptor);

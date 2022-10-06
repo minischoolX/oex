@@ -30,6 +30,7 @@ import org.edx.mobile.util.NetworkUtil;
 import org.edx.mobile.util.links.WebViewLink;
 //import org.edx.mobile.view.custom.cache.FastOpenApi;
 import org.edx.mobile.view.custom.cache.WebViewCache;
+import org.edx.mobile.view.custom.cache.WebViewCacheImpl;
 import org.edx.mobile.view.custom.cache.config.CacheConfig;
 //import org.edx.mobile.view.custom.cache.config.FastCacheMode;
 //import org.edx.mobile.view.custom.cache.offline.ResourceInterceptor;
@@ -340,7 +341,6 @@ public class URLInterceptorWebViewClient extends WebViewClient {
         if ((TextUtils.equals(SCHEME_HTTP, scheme)
                 || TextUtils.equals(SCHEME_HTTPS, scheme))
                 && method.equalsIgnoreCase(METHOD_GET)) {
-//            mWebViewCache = new WebViewCacheImpl(context);
             WebSettings settings = WebView.getSettings();
             settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
             int mWebViewCacheMode = settings.getCacheMode();

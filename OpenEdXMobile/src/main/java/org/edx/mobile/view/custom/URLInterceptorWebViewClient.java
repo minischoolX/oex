@@ -28,7 +28,7 @@ import org.edx.mobile.util.ConfigUtil;
 import org.edx.mobile.util.FileUtil;
 import org.edx.mobile.util.NetworkUtil;
 import org.edx.mobile.util.links.WebViewLink;
-import org.edx.mobile.view.custom.cache.FastCacheApi;
+import org.edx.mobile.view.custom.cache.FastOpenApi;
 import org.edx.mobile.view.custom.cache.WebViewCache;
 import org.edx.mobile.view.custom.cache.config.CacheConfig;
 import org.edx.mobile.view.custom.cache.config.FastCacheMode;
@@ -58,7 +58,7 @@ import dagger.hilt.android.qualifiers.ActivityContext;
  * than the current one, then treats it as an external link and may open in external browser.
  */
 @Singleton
-public class URLInterceptorWebViewClient extends WebViewClient implements FastCacheApi {
+public class URLInterceptorWebViewClient extends WebViewClient implements FastOpenApi {
 
     private final Logger logger = new Logger(URLInterceptorWebViewClient.class);
     private final FragmentActivity activity;

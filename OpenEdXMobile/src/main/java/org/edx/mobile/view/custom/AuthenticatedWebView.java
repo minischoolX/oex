@@ -236,14 +236,14 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
                     return loadFromWebViewCache(request);
                 }
 
+                mWebViewCacheMode = binding.webview.getSettings.getCacheMode();
+                mUserAgent = binding.webview.getSettings.getUserAgentString();
                 private WebResourceResponse loadFromWebViewCache(WebResourceRequest request) {
                     String scheme = request.getUrl().getScheme().trim();
                     String method = request.getMethod().trim();
                     if ((TextUtils.equals(SCHEME_HTTP, scheme)
                             || TextUtils.equals(SCHEME_HTTPS, scheme))
                             && method.equalsIgnoreCase(METHOD_GET)) {
-                        mWebViewCacheMode = cacheMode;
-                        mUserAgent = "test user agent";
                         return mWebViewCache.getResource(request, mWebViewCacheMode, mUserAgent);
                     }
                     return null;

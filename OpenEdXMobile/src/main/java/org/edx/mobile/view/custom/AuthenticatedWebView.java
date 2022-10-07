@@ -243,13 +243,7 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
                             || TextUtils.equals(SCHEME_HTTPS, scheme))
                             && method.equalsIgnoreCase(METHOD_GET)) {
                         mWebViewCacheMode = cacheMode;
-                        if (cacheStringView != null) {
-                            mUserAgent = cacheStringView.getSettings().getUserAgentString();
-                        } else {
-                            cacheStringView = new EdxWebView();
-                            mUserAgent = cacheStringView.getSettings().getUserAgentString();
-                        }
-//                        mUserAgent = binding.webview.getSettings().getUserAgentString();
+                        mUserAgent = "test user agent";
                         return mWebViewCache.getResource(request, mWebViewCacheMode, mUserAgent);
                     }
                     return null;

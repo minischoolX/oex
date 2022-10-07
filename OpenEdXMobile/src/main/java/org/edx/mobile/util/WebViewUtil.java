@@ -116,9 +116,9 @@ public class WebViewUtil {
                                                @NonNull OkHttpClientProvider okHttpClientProvider,
                                                @StringRes final int actionTextResId,
                                                @Nullable final View.OnClickListener actionListener) {
-        if (!NetworkUtil.isConnected(context)) {
-            errorNotification.showError(context, new IOException(), actionTextResId, actionListener);
-        } else {
+//        if (!NetworkUtil.isConnected(context)) {
+//            errorNotification.showError(context, new IOException(), actionTextResId, actionListener);
+//        } else {
             errorNotification.hideError();
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                 viewInterface.showLoadingProgress();
@@ -161,6 +161,6 @@ public class WebViewUtil {
             } else {
                 webView.loadUrl(url);
             }
-        }
+//        }
     }
 }

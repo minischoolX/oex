@@ -253,13 +253,13 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
                 }
 
                 public void onPageFinished(WebView view, String url) {
-                    if (!NetworkUtil.isConnected(getContext())) {
-                    showErrorView(getResources().getString(R.string.reset_no_network_message),
-                            R.drawable.ic_wifi);
-                    hideLoadingProgress();
-                    pageIsLoaded = false;
-                    return;
-                }
+//                    if (!NetworkUtil.isConnected(getContext())) {
+//                    showErrorView(getResources().getString(R.string.reset_no_network_message),
+//                            R.drawable.ic_wifi);
+//                    hideLoadingProgress();
+//                    pageIsLoaded = false;
+//                    return;
+//                }
                 if (didReceiveError) {
                     didReceiveError = false;
                     return;
@@ -334,10 +334,10 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
             EventBus.getDefault().register(this);
         }
 
-        if (!NetworkUtil.isConnected(getContext())) {
-            showErrorMessage(R.string.reset_no_network_message, R.drawable.ic_wifi);
-            return;
-        }
+//        if (!NetworkUtil.isConnected(getContext())) {
+//            showErrorMessage(R.string.reset_no_network_message, R.drawable.ic_wifi);
+//            return;
+//        }
 
         showLoadingProgress();
 

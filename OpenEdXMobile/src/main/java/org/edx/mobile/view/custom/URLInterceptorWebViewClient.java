@@ -27,6 +27,15 @@ import org.edx.mobile.util.ConfigUtil;
 import org.edx.mobile.util.FileUtil;
 import org.edx.mobile.util.NetworkUtil;
 import org.edx.mobile.util.links.WebViewLink;
+import org.edx.mobile.view.custom.cache.FastOpenApi;
+import org.edx.mobile.view.custom.cache.*;
+import org.edx.mobile.view.custom.cache.WebViewCacheImpl;
+import org.edx.mobile.view.custom.cache.config.CacheConfig;
+import org.edx.mobile.view.custom.cache.config.FastCacheMode;
+import org.edx.mobile.view.custom.cache.offline.ResourceInterceptor;
+//import org.edx.mobile.view.custom.cache.config.DefaultMimeTypeFilter;
+//import org.edx.mobile.view.custom.cache.offline.Chain;
+//import java.io.File;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -51,7 +60,7 @@ import dagger.hilt.android.qualifiers.ActivityContext;
  * than the current one, then treats it as an external link and may open in external browser.
  */
 @Singleton
-public class URLInterceptorWebViewClient extends WebViewClient {
+public class URLInterceptorWebViewClient extends WebViewClient implements FastOpenApi{
 
     private final Logger logger = new Logger(URLInterceptorWebViewClient.class);
     private final FragmentActivity activity;
@@ -349,6 +358,21 @@ public class URLInterceptorWebViewClient extends WebViewClient {
             filePathCallback.onReceiveValue(files);
         }
     }
+
+    @Override
+    public void setCacheMode(FastCacheMode mode, CacheConfig cacheConfig) {
+        if (mWebViewCache != null) {
+            mWebViewCache.setCacheMode(mode, cacheConfig);
+        }
+    }
+
+    @Override
+    public void addResourceInterceptor(ResourceInterceptor interceptor) {
+        if (mWebViewCache != null) {
+            mWebViewCache.addResourceInterceptor(interceptor);
+        }
+    }
+
 
     /**
      * Action listener interface for handling a user's click on recognized links in a WebView.

@@ -73,6 +73,8 @@ public class URLInterceptorWebViewClient extends WebViewClient implements FastOp
     Config config;
     AnalyticsRegistry analyticsRegistry;
 
+    private WebViewCache mWebViewCache;
+
     /**
      * Tells if the page loading has been finished or not.
      */
@@ -107,6 +109,9 @@ public class URLInterceptorWebViewClient extends WebViewClient implements FastOp
         this.interceptAjaxRequest = interceptAjaxRequest;
         this.completionCallback = completionCallback;
         setupWebView(webView);
+        
+        
+        mWebViewCache = new WebViewCacheImpl(webView.getContext());
     }
 
     /**

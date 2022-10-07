@@ -176,8 +176,8 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
                             hideLoadingProgress();
                             break;
                     }
-                    pageIsLoaded = false;
-                    showErrorMessage(R.string.network_error_message, R.drawable.ic_error);
+//                    pageIsLoaded = false;
+//                    showErrorMessage(R.string.network_error_message, R.drawable.ic_error);
                 }
                 super.onReceivedHttpError(view, request, errorResponse);
             }

@@ -9,7 +9,7 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
-import android.webkit.WebSettings;
+//import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -75,8 +75,8 @@ public class URLInterceptorWebViewClient extends WebViewClient implements FastOp
     AnalyticsRegistry analyticsRegistry;
 
     private WebViewCache mWebViewCache;
-    private int mWebViewCacheMode;
-    private String mUserAgent;
+//    private int mWebViewCacheMode;
+//    private String mUserAgent;
 
     /**
      * Tells if the page loading has been finished or not.
@@ -112,9 +112,9 @@ public class URLInterceptorWebViewClient extends WebViewClient implements FastOp
         this.interceptAjaxRequest = interceptAjaxRequest;
         this.completionCallback = completionCallback;
         setupWebView(webView);
-        WebSettings settings = webView.getSettings();
-        mWebViewCacheMode = settings.getCacheMode();
-        mUserAgent = settings.getUserAgentString();
+//        WebSettings settings = webView.getSettings();
+//        mWebViewCacheMode = settings.getCacheMode();
+//        mUserAgent = settings.getUserAgentString();
         mWebViewCache = new WebViewCacheImpl(webView.getContext());
     }
 

@@ -254,7 +254,7 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
                                 BuildConfig.APPLICATION_ID + "/" +
                                 BuildConfig.VERSION_NAME
                         );
-                        String mUserAgent = settings().getUserAgentString();
+                        String mUserAgent = settings.getUserAgentString();
                         
                         int mWebViewCacheMode = cacheMode;
 //                        int mWebViewCacheMode = new WebView(this).getSettings().getCacheMode();

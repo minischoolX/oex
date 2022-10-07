@@ -211,20 +211,22 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
                     pageUrlCallback.onUrlClick(true, uri.getQueryParameter("screen_name"));
                     return true;
                 }
-                if (overrideUrl.contains("xblock")) {
+//                if (overrideUrl.contains("xblock")) {
+//                    view.loadUrl(overrideUrl);
+//                    return true;
+//                }
                     view.loadUrl(overrideUrl);
                     return true;
-                }
-                return false;
+//                return false;
             }
 
             @Override
                 public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
                     String interceptUrl = request.getUrl().toString();
-                    if (interceptUrl.contains("xblock")) {
+//                    if (interceptUrl.contains("xblock")) {
                         return onIntercept(view, request);
-                    }
-                    return super.shouldInterceptRequest(view, request);
+//                    }
+//                    return super.shouldInterceptRequest(view, request);
                 }
 
                 private WebResourceResponse onIntercept(WebView view, WebResourceRequest request) {

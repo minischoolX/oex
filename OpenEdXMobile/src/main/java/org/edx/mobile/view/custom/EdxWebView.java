@@ -49,8 +49,8 @@ public class EdxWebView extends WebView implements FastOpenApi{
     }
 
     public void addResourceInterceptor(ResourceInterceptor interceptor) {
-        if (mFastClient != null) {
-            mFastClient.addResourceInterceptor(interceptor);
+        if (cacheClient != null) {
+            cacheClient.addResourceInterceptor(interceptor);
         }
     }    
 }

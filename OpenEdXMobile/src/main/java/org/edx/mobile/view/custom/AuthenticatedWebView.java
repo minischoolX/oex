@@ -136,7 +136,7 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
         binding.webview.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
         mWebViewCacheMode = binding.webview.getSettings().getCacheMode();
         mUserAgent = binding.webview.getSettings().getUserAgentString();
-        mWebViewCache = new WebViewCacheImpl(binding.webview(getContext()));
+//        mWebViewCache = new WebViewCacheImpl(binding.webview(getContext()));
         CacheConfig config = new CacheConfig.Builder(getContext())
                 .setCacheDir(getContext().getExternalCacheDir() + File.separator + "custom")
                 .setExtensionFilter(new CustomMimeTypeFilter())

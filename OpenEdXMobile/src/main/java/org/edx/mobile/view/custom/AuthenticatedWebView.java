@@ -27,6 +27,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
+import org.edx.mobile.BuildConfig;
 import org.edx.mobile.R;
 import org.edx.mobile.base.MainApplication;
 import org.edx.mobile.core.IEdxEnvironment;
@@ -55,6 +56,7 @@ import org.edx.mobile.view.custom.cache.config.DefaultMimeTypeFilter;
 import org.edx.mobile.view.custom.cache.offline.Chain;
 import org.edx.mobile.view.custom.EdxWebView;
 import java.io.File;
+import android.content.Context;
 
 /**
  * A custom webview which authenticates the user before loading a page,
@@ -81,7 +83,7 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
     private int cacheMode = 1;
     private String cacheUserAgent;
     private EdxWebView cacheStringView;
-
+    private Context context;
 
     public AuthenticatedWebView(Context context) {
         super(context);
@@ -236,14 +238,26 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
                     return loadFromWebViewCache(request);
                 }
 
-                mWebViewCacheMode = binding.webview.getSettings.getCacheMode();
-                mUserAgent = binding.webview.getSettings.getUserAgentString();
+//                mWebViewCacheMode = binding.webview.getSettings.getCacheMode();
+//                mUserAgent = binding.webview.getSettings.getUserAgentString();
                 private WebResourceResponse loadFromWebViewCache(WebResourceRequest request) {
                     String scheme = request.getUrl().getScheme().trim();
                     String method = request.getMethod().trim();
                     if ((TextUtils.equals(SCHEME_HTTP, scheme)
                             || TextUtils.equals(SCHEME_HTTPS, scheme))
                             && method.equalsIgnoreCase(METHOD_GET)) {
+                        WebView helperWebView = new WebView(this);
+                        final WebSettings settings = helperWebView.getSettings();
+                        settings.setUserAgentString(
+                                settings.getUserAgentString() + " " +
+                                context.getString(R.string.app_name) + "/" +
+                                BuildConfig.APPLICATION_ID + "/" +
+                                BuildConfig.VERSION_NAME
+                        );
+                        String mUserAgent = settings().getUserAgentString();
+                        
+                        int mWebViewCacheMode = cacheMode;
+//                        int mWebViewCacheMode = new WebView(this).getSettings().getCacheMode();
                         return mWebViewCache.getResource(request, mWebViewCacheMode, mUserAgent);
                     }
                     return null;

@@ -238,6 +238,8 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
                     if ((TextUtils.equals(SCHEME_HTTP, scheme)
                             || TextUtils.equals(SCHEME_HTTPS, scheme))
                             && method.equalsIgnoreCase(METHOD_GET)) {
+                        mWebViewCacheMode = binding.webview.getSettings().getCacheMode();
+                        mUserAgent = binding.webview.getSettings().getUserAgentString();
                         return mWebViewCache.getResource(request, mWebViewCacheMode, mUserAgent);
                     }
                     return null;

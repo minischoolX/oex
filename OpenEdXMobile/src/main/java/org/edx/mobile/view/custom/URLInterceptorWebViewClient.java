@@ -112,7 +112,7 @@ public class URLInterceptorWebViewClient extends WebViewClient implements FastOp
         this.interceptAjaxRequest = interceptAjaxRequest;
         this.completionCallback = completionCallback;
         setupWebView(webView);
-        WebSettings = settings = webView.getSettings();
+        WebSettings settings = webView.getSettings();
         mWebViewCacheMode = settings.getCacheMode();
         mUserAgent = settings.getUserAgentString();
         mWebViewCache = new WebViewCacheImpl(webView.getContext());

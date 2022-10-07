@@ -12,8 +12,8 @@ public class EdxAssessmentWebView extends EdxWebView {
         getSettings().setSupportZoom(false);
     }
 
-    public getContext(Context context) {
-        mContext = context;
+    public getContext() {
+        return mContext;
     }
 
 }

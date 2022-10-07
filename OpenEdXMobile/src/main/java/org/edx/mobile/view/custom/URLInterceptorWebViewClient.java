@@ -9,6 +9,7 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -74,6 +75,8 @@ public class URLInterceptorWebViewClient extends WebViewClient implements FastOp
     AnalyticsRegistry analyticsRegistry;
 
     private WebViewCache mWebViewCache;
+    private int mWebViewCacheMode;
+    private String mUserAgent;
 
     /**
      * Tells if the page loading has been finished or not.

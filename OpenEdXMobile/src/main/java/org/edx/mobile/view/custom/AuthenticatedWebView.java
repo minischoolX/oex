@@ -136,7 +136,7 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
         binding.webview.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
         mWebViewCacheMode = binding.webview.getSettings().getCacheMode();
         mUserAgent = binding.webview.getSettings().getUserAgentString();
-        mWebViewCache = new WebCacheImpl(binding.webview(this));
+        mWebViewCache = new WebCacheImpl(binding.webview(getContext()));
         CacheConfig config = new CacheConfig.Builder(getContext())
                 .setCacheDir(getContext().getExternalCacheDir() + File.separator + "custom")
                 .setExtensionFilter(new CustomMimeTypeFilter())
@@ -274,14 +274,14 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
         webViewClient.setAllLinksAsExternal(isAllLinksExternal);
     }
 
-    @Override
+//    @Override
     public void setCacheMode(FastCacheMode mode, CacheConfig cacheConfig) {
         if (mWebViewCache != null) {
             mWebViewCache.setCacheMode(mode, cacheConfig);
         }
     }
 
-    @Override
+//    @Override
     public void addResourceInterceptor(ResourceInterceptor interceptor) {
         if (mWebViewCache != null) {
             mWebViewCache.addResourceInterceptor(interceptor);

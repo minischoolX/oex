@@ -26,7 +26,7 @@ public class WebViewCacheImpl implements WebViewCache {
     private OfflineServer mOfflineServer;
     private Context mContext;
 
-    WebViewCacheImpl(Context context) {
+    public WebViewCacheImpl(Context context) {
         mContext = context;
     }
 

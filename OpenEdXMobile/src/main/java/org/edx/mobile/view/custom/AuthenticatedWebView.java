@@ -59,7 +59,7 @@ import java.io.File;
  * A custom webview which authenticates the user before loading a page,
  * Javascript can also be passed in arguments for evaluation.
  */
-public class AuthenticatedWebView extends FrameLayout implements RefreshListener {
+public class AuthenticatedWebView extends FrameLayout implements RefreshListener, FastOpenApi {
     protected final Logger logger = new Logger(getClass().getName());
 
     private FullScreenErrorNotification fullScreenErrorNotification;
@@ -283,14 +283,14 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
         webViewClient.setAllLinksAsExternal(isAllLinksExternal);
     }
 
-//    @Override
+    @Override
     public void setCacheMode(FastCacheMode mode, CacheConfig cacheConfig) {
         if (mWebViewCache != null) {
             mWebViewCache.setCacheMode(mode, cacheConfig);
         }
     }
 
-//    @Override
+    @Override
     public void addResourceInterceptor(ResourceInterceptor interceptor) {
         if (mWebViewCache != null) {
             mWebViewCache.addResourceInterceptor(interceptor);

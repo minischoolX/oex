@@ -140,8 +140,8 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
                 .setCacheDir(getContext().getExternalCacheDir() + File.separator + "custom")
                 .setExtensionFilter(new CustomMimeTypeFilter())
                 .build();
-        setCacheMode(FastCacheMode.FORCE, config);
-        addResourceInterceptor(new ResourceInterceptor() {
+        binding.webview.setCacheMode(FastCacheMode.FORCE, config);
+        binding.webview.addResourceInterceptor(new ResourceInterceptor() {
             @Override
             public WebResource load(Chain chain) {
                 return chain.process(chain.getRequest());

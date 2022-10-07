@@ -53,6 +53,7 @@ import org.edx.mobile.view.custom.cache.config.FastCacheMode;
 import org.edx.mobile.view.custom.cache.offline.ResourceInterceptor;
 import org.edx.mobile.view.custom.cache.config.DefaultMimeTypeFilter;
 import org.edx.mobile.view.custom.cache.offline.Chain;
+import org.edx.mobile.view.custom.EdxWebView;
 import java.io.File;
 
 /**
@@ -77,6 +78,9 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
     private WebViewCache mWebViewCache;
     private int mWebViewCacheMode;
     private String mUserAgent;
+    private int cacheMode = 1;
+    private String cacheUserAgent;
+    private EdxWebView cacheStringView;
 
 
     public AuthenticatedWebView(Context context) {
@@ -238,8 +242,14 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
                     if ((TextUtils.equals(SCHEME_HTTP, scheme)
                             || TextUtils.equals(SCHEME_HTTPS, scheme))
                             && method.equalsIgnoreCase(METHOD_GET)) {
-                        mWebViewCacheMode = binding.webview.getSettings().getCacheMode();
-                        mUserAgent = binding.webview.getSettings().getUserAgentString();
+                        mWebViewCacheMode = cacheMode;
+                        if (cacheStringView != null) {
+                            mUserAgent = cacheStringView.getSettings().getUserAgentString();
+                        } else {
+                            cacheStringView = new EdxWebView();
+                            mUserAgent = cacheStringView.getSettings().getUserAgentString();
+                        }
+//                        mUserAgent = binding.webview.getSettings().getUserAgentString();
                         return mWebViewCache.getResource(request, mWebViewCacheMode, mUserAgent);
                     }
                     return null;

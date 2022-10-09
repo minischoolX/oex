@@ -18,7 +18,7 @@ import org.edx.mobile.view.custom.cache.utils.LogUtils;
  * Created by Ryan
  * 2018/2/7 下午3:33
  */
-public class FastWebView extends WebView implements FastOpenApi {
+public class FastWebView extends WebView {
 
     private InnerFastClient mFastClient;
     private WebViewClient mUserWebViewClient;
@@ -36,15 +36,15 @@ public class FastWebView extends WebView implements FastOpenApi {
         super(context, attrs, defStyleAttr);
     }
 
-    @Override
-    public void setWebViewClient(WebViewClient client) {
-        if (mFastClient != null) {
-            mFastClient.updateProxyClient(client);
-        } else {
-            super.setWebViewClient(client);
-        }
-        mUserWebViewClient = client;
-    }
+//    @Override
+//    public void setWebViewClient(WebViewClient client) {
+//        if (mFastClient != null) {
+//            mFastClient.updateProxyClient(client);
+//        } else {
+//            super.setWebViewClient(client);
+//        }
+//        mUserWebViewClient = client;
+//    }
 
     @Override
     public void destroy() {
@@ -82,28 +82,28 @@ public class FastWebView extends WebView implements FastOpenApi {
         setCacheMode(mode, null);
     }
 
-    @Override
-    public void setCacheMode(FastCacheMode mode, CacheConfig cacheConfig) {
-        if (mode == FastCacheMode.DEFAULT) {
-            mFastClient = null;
-            if (mUserWebViewClient != null) {
-                setWebViewClient(mUserWebViewClient);
-            }
-        } else {
-            mFastClient = new InnerFastClient(this);
-            if (mUserWebViewClient != null) {
-                mFastClient.updateProxyClient(mUserWebViewClient);
-            }
-            mFastClient.setCacheMode(mode, cacheConfig);
-            super.setWebViewClient(mFastClient);
-        }
-    }
+//    @Override
+//    public void setCacheMode(FastCacheMode mode, CacheConfig cacheConfig) {
+//        if (mode == FastCacheMode.DEFAULT) {
+//            mFastClient = null;
+//            if (mUserWebViewClient != null) {
+//                setWebViewClient(mUserWebViewClient);
+//            }
+//        } else {
+//            mFastClient = new InnerFastClient(this);
+//            if (mUserWebViewClient != null) {
+//                mFastClient.updateProxyClient(mUserWebViewClient);
+//            }
+//            mFastClient.setCacheMode(mode, cacheConfig);
+//            super.setWebViewClient(mFastClient);
+//        }
+//    }
 
-    public void addResourceInterceptor(ResourceInterceptor interceptor) {
-        if (mFastClient != null) {
-            mFastClient.addResourceInterceptor(interceptor);
-        }
-    }
+//    public void addResourceInterceptor(ResourceInterceptor interceptor) {
+//        if (mFastClient != null) {
+//            mFastClient.addResourceInterceptor(interceptor);
+//        }
+//    }
 
     public void runJs(String function, Object... args) {
         StringBuilder script = new StringBuilder("javascript:");

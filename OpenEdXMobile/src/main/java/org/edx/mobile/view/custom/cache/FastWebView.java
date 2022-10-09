@@ -78,9 +78,9 @@ public class FastWebView extends WebView {
         new FastWebView(context.getApplicationContext()).loadUrl(url);
     }
 
-    public void setCacheMode(FastCacheMode mode) {
-        setCacheMode(mode, null);
-    }
+ //   public void setCacheMode(FastCacheMode mode) {
+ //       setCacheMode(mode, null);
+ //   }
 
 //    @Override
 //    public void setCacheMode(FastCacheMode mode, CacheConfig cacheConfig) {

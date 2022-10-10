@@ -58,7 +58,7 @@ public class OkHttpClientProvider {
                 // auto redirects is not allowed, bc we need to notify webview to do some internal processing.
                 .followSslRedirects(false)
                 .followRedirects(false)
-                .authenticator(oauthRefreshTokenAuthenticator);
+                .authenticator(oauthRefreshTokenAuthenticator)
                 .build();
     }
 

@@ -40,7 +40,7 @@ public class OkHttpResourceLoader implements ResourceLoader {
 
 
 //    @Inject
-    private OkHttpClientProvider okHttpClientProvider;
+    private OkHttpClientProvider clientProvider;
 
 
     private static final String HEADER_USER_AGENT = "User-Agent";
@@ -56,7 +56,7 @@ public class OkHttpResourceLoader implements ResourceLoader {
         String url = sourceRequest.getUrl();
         LogUtils.d(String.format("load url: %s", url));
         boolean isCacheByOkHttp = sourceRequest.isCacheable();
-        OkHttpClient client = OkHttpClientProvider.get();
+//        OkHttpClient client = OkHttpClientProvider.get();
         CacheControl cacheControl = getCacheControl(sourceRequest.getWebViewCache(), isCacheByOkHttp);
         String userAgent = sourceRequest.getUserAgent();
         if (TextUtils.isEmpty(userAgent)) {
@@ -97,7 +97,7 @@ public class OkHttpResourceLoader implements ResourceLoader {
         Response response = null;
         try {
             WebResource remoteResource = new WebResource();
-            response = client.newCall(request).execute();
+            response = clientProvider.get().newCall(request).execute();
             if (isInterceptorThisRequest(response)) {
                 remoteResource.setResponseCode(response.code());
                 remoteResource.setReasonPhrase(response.message());

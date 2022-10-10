@@ -4,7 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import org.edx.mobile.view.custom.cache.WebResource;
-import org.edx.mobile.view.custom.cache.okhttp.OkHttpClientProvider;
+//import org.edx.mobile.view.custom.cache.okhttp.OkHttpClientProvider;
 import org.edx.mobile.view.custom.cache.utils.HeaderUtils;
 import org.edx.mobile.view.custom.cache.utils.LogUtils;
 import org.edx.mobile.BuildConfig;
@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
 
 import okhttp3.CacheControl;
 import okhttp3.OkHttpClient;
@@ -26,6 +27,9 @@ import static android.webkit.WebSettings.LOAD_CACHE_ONLY;
 import static android.webkit.WebSettings.LOAD_NO_CACHE;
 import static java.net.HttpURLConnection.HTTP_NOT_MODIFIED;
 
+
+import org.edx.mobile.http.provider.OkHttpClientProvider;
+
 /**
  * load remote resources using okhttp.
  * <p>
@@ -33,6 +37,11 @@ import static java.net.HttpURLConnection.HTTP_NOT_MODIFIED;
  * at 2019/9/26
  */
 public class OkHttpResourceLoader implements ResourceLoader {
+
+
+    @Inject
+    OkHttpClientProvider okHttpClientProvider;
+
 
     private static final String HEADER_USER_AGENT = "User-Agent";
     private static final String DEFAULT_USER_AGENT = "FastWebView" + BuildConfig.VERSION_NAME;
@@ -47,7 +56,7 @@ public class OkHttpResourceLoader implements ResourceLoader {
         String url = sourceRequest.getUrl();
         LogUtils.d(String.format("load url: %s", url));
         boolean isCacheByOkHttp = sourceRequest.isCacheable();
-        OkHttpClient client = OkHttpClientProvider.get(mContext);
+//        OkHttpClient client = OkHttpClientProvider.get(mContext);
         CacheControl cacheControl = getCacheControl(sourceRequest.getWebViewCache(), isCacheByOkHttp);
         String userAgent = sourceRequest.getUserAgent();
         if (TextUtils.isEmpty(userAgent)) {
@@ -88,7 +97,7 @@ public class OkHttpResourceLoader implements ResourceLoader {
         Response response = null;
         try {
             WebResource remoteResource = new WebResource();
-            response = client.newCall(request).execute();
+            response = okHttpClientProvider.getWithOfflineCache().newCall(request).execute();
             if (isInterceptorThisRequest(response)) {
                 remoteResource.setResponseCode(response.code());
                 remoteResource.setReasonPhrase(response.message());

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import org.edx.mobile.view.custom.cache.WebResource;
-//import org.edx.mobile.view.custom.cache.okhttp.OkHttpClientProvider;
+import org.edx.mobile.view.custom.cache.okhttp.OkHttpClientProvider;
 import org.edx.mobile.view.custom.cache.utils.HeaderUtils;
 import org.edx.mobile.view.custom.cache.utils.LogUtils;
 import org.edx.mobile.BuildConfig;
@@ -28,7 +28,7 @@ import static android.webkit.WebSettings.LOAD_NO_CACHE;
 import static java.net.HttpURLConnection.HTTP_NOT_MODIFIED;
 
 
-import org.edx.mobile.http.provider.OkHttpClientProvider;
+//import org.edx.mobile.http.provider.OkHttpClientProvider;
 
 /**
  * load remote resources using okhttp.

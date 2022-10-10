@@ -30,7 +30,7 @@ public class OkHttpClientProvider {
 
     private OkHttpClientProvider(Context context) {
         createOkHttpClient(context);
-        this.oauthRefreshTokenAuthenticator = oauthRefreshTokenAuthenticator;
+//        this.oauthRefreshTokenAuthenticator = oauthRefreshTokenAuthenticator;
     }
 
     private static OkHttpClientProvider getInstance(Context context) {

@@ -15,10 +15,10 @@ import okhttp3.OkHttpClient;
  * Created by Ryan
  * at 2019/9/26
  */
-public interface OkHttpClientProvider edxtends Provider<OkHttpClient> {
+public interface OkHttpClientProvider extends Provider<OkHttpClient> {
 
     @NonNull
-    OkHttpClient get()
+    OkHttpClient get();
 
     @Sigleton
     class Impl implements OkHttpClientProvider {

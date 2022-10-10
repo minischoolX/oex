@@ -108,14 +108,14 @@ public class OkHttpClientProvider {
                 }
                 mClient.authenticator(oauthRefreshTokenAuthenticator);
 
-                mClient.cookieJar(FastCookieManager.getInstance().getCookieJar(context))
-                mClient.cache(new Cache(new File(dir), OKHTTP_CACHE_SIZE))
-                mClient.readTimeout(20, TimeUnit.SECONDS)
-                mClient.writeTimeout(20, TimeUnit.SECONDS)
-                mClient.connectTimeout(20, TimeUnit.SECONDS)
+                mClient.cookieJar(FastCookieManager.getInstance().getCookieJar(context));
+                mClient.cache(new Cache(new File(dir), OKHTTP_CACHE_SIZE));
+                mClient.readTimeout(20, TimeUnit.SECONDS);
+                mClient.writeTimeout(20, TimeUnit.SECONDS);
+                mClient.connectTimeout(20, TimeUnit.SECONDS);
                 // auto redirects is not allowed, bc we need to notify webview to do some internal processing.
-                mClient.followSslRedirects(false)
-                mClient.followRedirects(false)
+                mClient.followSslRedirects(false);
+                mClient.followRedirects(false);
                 mClient.build();
     }
 

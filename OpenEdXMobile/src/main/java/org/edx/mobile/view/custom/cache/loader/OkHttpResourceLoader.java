@@ -40,7 +40,7 @@ public class OkHttpResourceLoader implements ResourceLoader {
 
 
 //    @Inject
-    OkHttpClientProvider okHttpClientProvider;
+    private OkHttpClientProvider okHttpClientProvider;
 
 
     private static final String HEADER_USER_AGENT = "User-Agent";
@@ -97,7 +97,7 @@ public class OkHttpResourceLoader implements ResourceLoader {
         Response response = null;
         try {
             WebResource remoteResource = new WebResource();
-            response = okHttpClientProvider.getWithOfflineCache().newCall(request).execute();
+            response = okHttpClientProvider.get().newCall(request).execute();
             if (isInterceptorThisRequest(response)) {
                 remoteResource.setResponseCode(response.code());
                 remoteResource.setReasonPhrase(response.message());

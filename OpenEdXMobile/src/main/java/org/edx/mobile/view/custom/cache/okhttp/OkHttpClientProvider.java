@@ -30,7 +30,7 @@ public class OkHttpClientProvider {
 
     private OkHttpClientProvider(Context context) {
         createOkHttpClient(context);
-//        this.oauthRefreshTokenAuthenticator = oauthRefreshTokenAuthenticator;
+        OauthRefreshTokenAuthenticator oauthRefreshTokenAuthenticator = new OauthRefreshTokenAuthenticator();
     }
 
     private static OkHttpClientProvider getInstance(Context context) {
@@ -46,6 +46,9 @@ public class OkHttpClientProvider {
 
 
     private void createOkHttpClient(Context context) {
+     OauthRefreshTokenAuthenticator oauthRefreshTokenAuthenticator = new OauthRefreshTokenAuthenticator();
+
+
         String dir = context.getCacheDir() + File.separator + CACHE_OKHTTP_DIR_NAME;
         mClient = new OkHttpClient.Builder()
                 .addInterceptor(new OauthHeaderRequestInterceptor(context))

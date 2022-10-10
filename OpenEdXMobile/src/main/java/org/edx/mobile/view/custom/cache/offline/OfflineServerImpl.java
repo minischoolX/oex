@@ -25,13 +25,13 @@ public class OfflineServerImpl implements OfflineServer {
     private List<ResourceInterceptor> mDefaultModeChainList;
     private WebResourceResponseGenerator mResourceResponseGenerator;
 
-        private final Context context;
+ //       private final Context context;
         private final OauthRefreshTokenAuthenticator oauthRefreshTokenAuthenticator;
 
         @Inject
-        public Impl(@ApplicationContext Context context,
+        public Impl(Context context,
                     OauthRefreshTokenAuthenticator oauthRefreshTokenAuthenticator) {
-            this.context = context;
+            mContext = context.getApplicationContext();
             this.oauthRefreshTokenAuthenticator = oauthRefreshTokenAuthenticator;
         }
 
@@ -40,6 +40,7 @@ public class OfflineServerImpl implements OfflineServer {
         mContext = context.getApplicationContext();
         mCacheConfig = cacheConfig;
         mResourceResponseGenerator = new DefaultWebResponseGenerator();
+        this.oauthRefreshTokenAuthenticator = oauthRefreshTokenAuthenticator;
     }
 
     private List<ResourceInterceptor> buildForceModeChain(Context context, CacheConfig cacheConfig) {

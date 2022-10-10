@@ -3,7 +3,6 @@ package org.edx.mobile.view.custom.cache.okhttp;
 import android.content.Context;
 
 import org.edx.mobile.view.custom.cache.cookie.FastCookieManager;
-import org.edx.mobile.http.provider.OkHttpClientProvider;
 
 import java.io.File;
 //import java.util.List;

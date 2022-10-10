@@ -50,7 +50,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public interface OkHttpClientProvider extends Provider<OkHttpClient> {
 
     @NonNull
-    OkHttpClient get();
+    static OkHttpClient get();
 
     class Impl implements OkHttpClientProvider {
     private static final String CACHE_OKHTTP_DIR_NAME = "cached_webview_okhttp";

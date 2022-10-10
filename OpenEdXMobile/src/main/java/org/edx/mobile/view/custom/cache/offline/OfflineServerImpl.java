@@ -5,9 +5,9 @@ import android.webkit.WebResourceResponse;
 
 import org.edx.mobile.view.custom.cache.config.CacheConfig;
 import org.edx.mobile.view.custom.cache.WebResource;
-import org.edx.mobile.http.authenticator.OauthRefreshTokenAuthenticator;
-import org.edx.mobile.http.interceptor.OauthHeaderRequestInterceptor;
-import dagger.hilt.android.qualifiers.ApplicationContext;
+//import org.edx.mobile.http.authenticator.OauthRefreshTokenAuthenticator;
+//import org.edx.mobile.http.interceptor.OauthHeaderRequestInterceptor;
+//import dagger.hilt.android.qualifiers.ApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class OfflineServerImpl implements OfflineServer {
         mContext = context.getApplicationContext();
         mCacheConfig = cacheConfig;
         mResourceResponseGenerator = new DefaultWebResponseGenerator();
-        this.oauthRefreshTokenAuthenticator = oauthRefreshTokenAuthenticator;
+//        this.oauthRefreshTokenAuthenticator = oauthRefreshTokenAuthenticator;
     }
 
     private List<ResourceInterceptor> buildForceModeChain(Context context, CacheConfig cacheConfig) {
@@ -53,8 +53,8 @@ public class OfflineServerImpl implements OfflineServer {
             interceptors.add(MemResourceInterceptor.getInstance(cacheConfig));
             interceptors.add(new DiskResourceInterceptor(cacheConfig));
             interceptors.add(new ForceRemoteResourceInterceptor(context, cacheConfig));
-                    interceptors.add(new OauthHeaderRequestInterceptor(mContext));
-                    interceptors.add(oauthRefreshTokenAuthenticator);
+//                    interceptors.add(new OauthHeaderRequestInterceptor(mContext));
+//                    interceptors.add(oauthRefreshTokenAuthenticator);
             mForceModeChainList = interceptors;
         }
         return mForceModeChainList;

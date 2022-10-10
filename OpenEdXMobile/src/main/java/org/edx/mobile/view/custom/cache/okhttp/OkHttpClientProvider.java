@@ -11,6 +11,10 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 
+
+import org.edx.mobile.http.interceptor.OauthHeaderRequestInterceptor;
+import org.edx.mobile.http.authenticator.OauthRefreshTokenAuthenticator;
+
 /**
  * Created by Ryan
  * at 2019/9/26
@@ -22,8 +26,11 @@ public class OkHttpClientProvider {
     private static volatile OkHttpClientProvider sInstance;
     private OkHttpClient mClient;
 
+    private final OauthRefreshTokenAuthenticator oauthRefreshTokenAuthenticator;
+
     private OkHttpClientProvider(Context context) {
         createOkHttpClient(context);
+        this.oauthRefreshTokenAuthenticator = oauthRefreshTokenAuthenticator;
     }
 
     private static OkHttpClientProvider getInstance(Context context) {
@@ -41,6 +48,8 @@ public class OkHttpClientProvider {
     private void createOkHttpClient(Context context) {
         String dir = context.getCacheDir() + File.separator + CACHE_OKHTTP_DIR_NAME;
         mClient = new OkHttpClient.Builder()
+                .addInterceptor(new OauthHeaderRequestInterceptor(context))
+                .addInterceptor(oauthRefreshTokenAuthenticator)
                 .cookieJar(FastCookieManager.getInstance().getCookieJar(context))
                 .cache(new Cache(new File(dir), OKHTTP_CACHE_SIZE))
                 .readTimeout(20, TimeUnit.SECONDS)
@@ -49,6 +58,7 @@ public class OkHttpClientProvider {
                 // auto redirects is not allowed, bc we need to notify webview to do some internal processing.
                 .followSslRedirects(false)
                 .followRedirects(false)
+                .authenticator(oauthRefreshTokenAuthenticator);
                 .build();
     }
 

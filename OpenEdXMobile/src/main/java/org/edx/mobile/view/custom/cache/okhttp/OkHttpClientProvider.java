@@ -69,7 +69,7 @@ public interface OkHttpClientProvider extends Provider<OkHttpClient> {
         
         @NonNull
         @Override
-        public OkHttpClient get(Context context) {
+        public static OkHttpClient get() {
             return get(true, false);
         }
         

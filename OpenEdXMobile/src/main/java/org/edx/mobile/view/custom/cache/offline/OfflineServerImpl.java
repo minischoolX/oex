@@ -28,12 +28,12 @@ public class OfflineServerImpl implements OfflineServer {
  //       private final Context context;
         private final OauthRefreshTokenAuthenticator oauthRefreshTokenAuthenticator;
 
-        @Inject
-        public Impl(Context context,
-                    OauthRefreshTokenAuthenticator oauthRefreshTokenAuthenticator) {
-            mContext = context.getApplicationContext();
-            this.oauthRefreshTokenAuthenticator = oauthRefreshTokenAuthenticator;
-        }
+//        @Inject
+//        public Impl(Context context,
+//                    OauthRefreshTokenAuthenticator oauthRefreshTokenAuthenticator) {
+//            mContext = context.getApplicationContext();
+//            this.oauthRefreshTokenAuthenticator = oauthRefreshTokenAuthenticator;
+//        }
 
 
     public OfflineServerImpl(Context context, CacheConfig cacheConfig) {
@@ -53,7 +53,7 @@ public class OfflineServerImpl implements OfflineServer {
             interceptors.add(MemResourceInterceptor.getInstance(cacheConfig));
             interceptors.add(new DiskResourceInterceptor(cacheConfig));
             interceptors.add(new ForceRemoteResourceInterceptor(context, cacheConfig));
-                    interceptors.add(new OauthHeaderRequestInterceptor(context));
+                    interceptors.add(new OauthHeaderRequestInterceptor(mContext));
                     interceptors.add(oauthRefreshTokenAuthenticator);
             mForceModeChainList = interceptors;
         }

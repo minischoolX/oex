@@ -39,7 +39,7 @@ import org.edx.mobile.http.provider.OkHttpClientProvider;
 public class OkHttpResourceLoader implements ResourceLoader {
 
 
-    @Inject
+//    @Inject
     OkHttpClientProvider okHttpClientProvider;
 
 

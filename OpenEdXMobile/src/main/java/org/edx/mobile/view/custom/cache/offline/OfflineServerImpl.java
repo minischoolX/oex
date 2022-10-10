@@ -25,8 +25,8 @@ public class OfflineServerImpl implements OfflineServer {
     private List<ResourceInterceptor> mDefaultModeChainList;
     private WebResourceResponseGenerator mResourceResponseGenerator;
 
- //       private final Context context;
-        private final OauthRefreshTokenAuthenticator oauthRefreshTokenAuthenticator;
+//        private final Context context;
+//        private final OauthRefreshTokenAuthenticator oauthRefreshTokenAuthenticator;
 
 //        @Inject
 //        public Impl(Context context,

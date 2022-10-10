@@ -11,6 +11,38 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 
+
+
+import android.content.Context;
+
+import androidx.annotation.NonNull;
+
+import org.edx.mobile.BuildConfig;
+import org.edx.mobile.R;
+import org.edx.mobile.http.authenticator.OauthRefreshTokenAuthenticator;
+import org.edx.mobile.http.interceptor.NewVersionBroadcastInterceptor;
+import org.edx.mobile.http.interceptor.NoCacheHeaderStrippingInterceptor;
+import org.edx.mobile.http.interceptor.OauthHeaderRequestInterceptor;
+import org.edx.mobile.http.interceptor.StaleIfErrorHandlingInterceptor;
+import org.edx.mobile.http.interceptor.StaleIfErrorInterceptor;
+import org.edx.mobile.http.interceptor.UserAgentInterceptor;
+import org.edx.mobile.http.util.Tls12SocketFactory;
+
+import java.io.File;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Provider;
+import javax.inject.Singleton;
+
+import dagger.hilt.android.qualifiers.ApplicationContext;
+import okhttp3.Cache;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+
+
+
 /**
  * Created by Ryan
  * at 2019/9/26

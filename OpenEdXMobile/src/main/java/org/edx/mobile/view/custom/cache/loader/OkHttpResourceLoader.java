@@ -56,7 +56,7 @@ public class OkHttpResourceLoader implements ResourceLoader {
         String url = sourceRequest.getUrl();
         LogUtils.d(String.format("load url: %s", url));
         boolean isCacheByOkHttp = sourceRequest.isCacheable();
-        OkHttpClient client = OkHttpClientProvider.get();
+        OkHttpClient client = OkHttpClientProvider.get(mContext);
         CacheControl cacheControl = getCacheControl(sourceRequest.getWebViewCache(), isCacheByOkHttp);
         String userAgent = sourceRequest.getUserAgent();
         if (TextUtils.isEmpty(userAgent)) {

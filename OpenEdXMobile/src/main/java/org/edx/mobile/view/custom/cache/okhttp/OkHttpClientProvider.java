@@ -52,7 +52,6 @@ public interface OkHttpClientProvider extends Provider<OkHttpClient> {
     @NonNull
     OkHttpClient get();
 
-    @Sigleton
     class Impl implements OkHttpClientProvider {
     private static final String CACHE_OKHTTP_DIR_NAME = "cached_webview_okhttp";
     private static final int OKHTTP_CACHE_SIZE = 100 * 1024 * 1024;
@@ -70,7 +69,7 @@ public interface OkHttpClientProvider extends Provider<OkHttpClient> {
         
         @NonNull
         @Override
-        public OkHttpClient get() {
+        public OkHttpClient get(Context context) {
             return get(true, false);
         }
         
@@ -79,8 +78,8 @@ public interface OkHttpClientProvider extends Provider<OkHttpClient> {
         private synchronized OkHttpClient get(boolean isOAuthBased, boolean usesOfflineCache) {
             final int index = (isOAuthBased ? FLAG_IS_OAUTH_BASED : 0) |
                     (usesOfflineCache ? USES_OFFLINE_CACHE : 0);
-            Boolean isOAuthBased = true;
-            Boolean usesOfflineCache = true;
+            isOAuthBased = true;
+            usesOfflineCache = true;
             OkHttpClient client = clients[index];
             if (client == null) {
                 final OkHttpClient.Builder builder = new OkHttpClient.Builder();

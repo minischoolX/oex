@@ -31,9 +31,9 @@ public class OkHttpClientProviderX {
 
     private static OkHttpClientProviderX getInstance(Context context) {
         if (sInstance == null) {
-            synchronized (OkHttpClientProviderX.class) {
+            synchronized (OkHttpClientProvider.class) {
                 if (sInstance == null) {
-                    sInstance = new OkHttpClientProviderX(context);
+                    sInstance = new OkHttpClientProvider(context);
                 }
             }
         }

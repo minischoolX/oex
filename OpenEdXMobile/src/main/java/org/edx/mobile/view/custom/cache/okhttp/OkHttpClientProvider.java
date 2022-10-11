@@ -3,11 +3,14 @@ package org.edx.mobile.view.custom.cache.okhttp;
 import android.content.Context;
 
 import org.edx.mobile.view.custom.cache.cookie.FastCookieManager;
+import org.edx.mobile.http.interceptor.OauthHeaderRequestInterceptor;
 
 import java.io.File;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 
 /**
@@ -39,7 +42,11 @@ public class OkHttpClientProvider {
 
     private void createOkHttpClient(Context context) {
         String dir = context.getCacheDir() + File.separator + CACHE_OKHTTP_DIR_NAME;
-        mClient = new OkHttpClient.Builder()
+
+        OkHttpClient.Builder mClientBuilder = new OkHttpClient.Builder();
+        List<Interceptor> interceptors = mClientBuilder.interceptors();
+        interceptors.add(new OauthHeaderRequestInterceptor(context));
+        mClient = mClientBuilder
                 .cookieJar(FastCookieManager.getInstance().getCookieJar(context))
                 .cache(new Cache(new File(dir), OKHTTP_CACHE_SIZE))
                 .readTimeout(20, TimeUnit.SECONDS)

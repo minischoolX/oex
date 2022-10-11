@@ -29,7 +29,7 @@ public class OkHttpClientProvider {
     private static volatile OkHttpClientProvider sInstance;
     private OkHttpClient mClient;
 
-    private final OauthRefreshTokenAuthenticator oauthRefreshTokenAuthenticator;
+    private OauthRefreshTokenAuthenticator oauthRefreshTokenAuthenticator;
 
     private OkHttpClientProvider(Context context) {
         createOkHttpClient(context);

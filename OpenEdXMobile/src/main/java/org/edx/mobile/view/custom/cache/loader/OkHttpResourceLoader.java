@@ -53,7 +53,7 @@ public class OkHttpResourceLoader implements ResourceLoader {
     private static final int OKHTTP_CACHE_SIZE = 100 * 1024 * 1024;
 
     @Override
-    public sychronized WebResource getResource(SourceRequest sourceRequest) {
+    public WebResource getResource(SourceRequest sourceRequest) {
         String url = sourceRequest.getUrl();
         String dir = mContext.getExternalCacheDir() + File.separator + CACHE_OKHTTP_DIR_NAME;
         LogUtils.d(String.format("load url: %s", url));
@@ -69,7 +69,6 @@ public class OkHttpResourceLoader implements ResourceLoader {
                 .followSslRedirects(false)
                 .followRedirects(false)
                 .build();
-
         CacheControl cacheControl = getCacheControl(sourceRequest.getWebViewCache(), isCacheByOkHttp);
         String userAgent = sourceRequest.getUserAgent();
         if (TextUtils.isEmpty(userAgent)) {

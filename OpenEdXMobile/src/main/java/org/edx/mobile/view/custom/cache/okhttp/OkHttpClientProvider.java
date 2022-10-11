@@ -5,11 +5,15 @@ import android.content.Context;
 import org.edx.mobile.view.custom.cache.cookie.FastCookieManager;
 
 import java.io.File;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 
+import org.edx.mobile.http.interceptor.GzipRequestInterceptor;
+import org.edx.mobile.http.interceptor.OauthHeaderRequestInterceptor;
 
 //import org.edx.mobile.BuildConfig;
 //import org.edx.mobile.R;

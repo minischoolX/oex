@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import org.edx.mobile.view.custom.cache.cookie.FastCookieManager;
 import org.edx.mobile.http.interceptor.OauthHeaderRequestInterceptor;
 
+import java.util.ArrayList;
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -76,8 +77,8 @@ public class OkHttpClientProvider {
                 specs.add(ConnectionSpec.CLEARTEXT);
 
                 client.ConnectionSpec(specs);
-            } catch (Exception exc) {
-                FLog.e("OkHttpClientProvider","Error while enabling TLS 1.2",exc);
+            } catch (Exception e) {
+//                FLog.e("OkHttpClientProvider","Error while enabling TLS 1.2",exc);
             }
         }
         return client;

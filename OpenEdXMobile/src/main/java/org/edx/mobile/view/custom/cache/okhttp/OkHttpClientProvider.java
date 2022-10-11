@@ -10,6 +10,14 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 
+
+import org.edx.mobile.BuildConfig;
+import org.edx.mobile.R;
+import org.edx.mobile.http.authenticator.OauthRefreshTokenAuthenticator;
+import org.edx.mobile.http.interceptor.NewVersionBroadcastInterceptor;
+import org.edx.mobile.http.interceptor.OauthHeaderRequestInterceptor;
+import org.edx.mobile.http.interceptor.UserAgentInterceptor;
+
 /**
  * Created by Ryan
  * at 2019/9/26

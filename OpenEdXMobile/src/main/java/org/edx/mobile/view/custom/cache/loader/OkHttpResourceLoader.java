@@ -18,6 +18,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
 import okhttp3.CacheControl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -42,7 +43,7 @@ public class OkHttpResourceLoader implements ResourceLoader {
     private static final String DEFAULT_USER_AGENT = "FastWebView" + BuildConfig.VERSION_NAME;
     private Context mContext;
 
-    OkHttpClientProvider okHttpClientProvider;
+//    OkHttpClientProvider okHttpClientProvider;
 
     public OkHttpResourceLoader(Context context) {
         mContext = context;
@@ -54,11 +55,12 @@ public class OkHttpResourceLoader implements ResourceLoader {
     @Override
     public WebResource getResource(SourceRequest sourceRequest) {
         String url = sourceRequest.getUrl();
-        String dir = context.getExternalCacheDir() + File.separator + CACHE_OKHTTP_DIR_NAME;
+        String dir = mContext.getExternalCacheDir() + File.separator + CACHE_OKHTTP_DIR_NAME;
         LogUtils.d(String.format("load url: %s", url));
         boolean isCacheByOkHttp = sourceRequest.isCacheable();
-        OkHttpClient client = OkHttpClientProvider.get().newBuilder()
-                .cookieJar(FastCookieManager.getInstance().getCookieJar(context))
+        OkHttpClient client = new OkHttpClientProvider();
+                client.get().newBuilder()
+                .cookieJar(FastCookieManager.getInstance().getCookieJar(mContext))
                 .cache(new Cache(new File(dir), OKHTTP_CACHE_SIZE))
                 .readTimeout(20, TimeUnit.SECONDS)
                 .writeTimeout(20, TimeUnit.SECONDS)

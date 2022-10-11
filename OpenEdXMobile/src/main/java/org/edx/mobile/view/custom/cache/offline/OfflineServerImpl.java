@@ -5,9 +5,6 @@ import android.webkit.WebResourceResponse;
 
 import org.edx.mobile.view.custom.cache.config.CacheConfig;
 import org.edx.mobile.view.custom.cache.WebResource;
-//import org.edx.mobile.http.authenticator.OauthRefreshTokenAuthenticator;
-//import org.edx.mobile.http.interceptor.OauthHeaderRequestInterceptor;
-//import dagger.hilt.android.qualifiers.ApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,27 +22,15 @@ public class OfflineServerImpl implements OfflineServer {
     private List<ResourceInterceptor> mDefaultModeChainList;
     private WebResourceResponseGenerator mResourceResponseGenerator;
 
-//        private final Context context;
-//        private final OauthRefreshTokenAuthenticator oauthRefreshTokenAuthenticator;
-
-//        @Inject
-//        public Impl(Context context,
-//                    OauthRefreshTokenAuthenticator oauthRefreshTokenAuthenticator) {
-//            mContext = context.getApplicationContext();
-//            this.oauthRefreshTokenAuthenticator = oauthRefreshTokenAuthenticator;
-//        }
-
-
     public OfflineServerImpl(Context context, CacheConfig cacheConfig) {
         mContext = context.getApplicationContext();
         mCacheConfig = cacheConfig;
         mResourceResponseGenerator = new DefaultWebResponseGenerator();
-//        this.oauthRefreshTokenAuthenticator = oauthRefreshTokenAuthenticator;
     }
 
     private List<ResourceInterceptor> buildForceModeChain(Context context, CacheConfig cacheConfig) {
         if (mForceModeChainList == null) {
-            int interceptorsCount = 5 + getBaseInterceptorsCount();
+            int interceptorsCount = 3 + getBaseInterceptorsCount();
             List<ResourceInterceptor> interceptors = new ArrayList<>(interceptorsCount);
             if (mBaseInterceptorList != null && !mBaseInterceptorList.isEmpty()) {
                 interceptors.addAll(mBaseInterceptorList);
@@ -53,8 +38,6 @@ public class OfflineServerImpl implements OfflineServer {
             interceptors.add(MemResourceInterceptor.getInstance(cacheConfig));
             interceptors.add(new DiskResourceInterceptor(cacheConfig));
             interceptors.add(new ForceRemoteResourceInterceptor(context, cacheConfig));
-//                    interceptors.add(new OauthHeaderRequestInterceptor(mContext));
-//                    interceptors.add(oauthRefreshTokenAuthenticator);
             mForceModeChainList = interceptors;
         }
         return mForceModeChainList;

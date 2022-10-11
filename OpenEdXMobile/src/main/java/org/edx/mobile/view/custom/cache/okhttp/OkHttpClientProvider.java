@@ -30,20 +30,21 @@ public class OkHttpClientProvider {
 
     private static @Nullable OkHttpClient sClient;
 
-    public static OkHttpClient getOkHttpClient() {
+    public static OkHttpClient getOkHttpClient(Context context) {
         if (sClient == null) {
-            sClient = createClient();
+            sClient = createClient(context);
         }
-        retutn sClient;
+        return sClient;
     }
 
     public static void replaceOkHttpClient(OkHttpClient client) {
         sClient = client;
     }
 
-    public static OkHttpClient createClient() {
+    public static OkHttpClient createClient(Context context) {
+        String dir = context.getCacheDir() + File.separator + CACHE_OKHTTP_DIR_NAME;
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
-        List<Interceptor> interceptors = mClientBuilder.interceptors();
+        List<Interceptor> interceptors = clientBuilder.interceptors();
         interceptors.add(new OauthHeaderRequestInterceptor(context));
 
         OkHttpClient client = new OkHttpClient.Builder()
@@ -56,7 +57,7 @@ public class OkHttpClientProvider {
                 .followSslRedirects(false)
                 .followRedirects(false);
 
-                return enableTls().build();
+                return enableTls(client).build();
 //                .build();
     }
 

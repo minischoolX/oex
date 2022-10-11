@@ -215,8 +215,8 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
 //                    view.loadUrl(overrideUrl);
 //                    return true;
 //                }
-                    string overrideUrlX = uri.toURL();
-                    view.loadUrl(overrideUrlX);
+//                    string overrideUrlX = uri.toURL();
+                    view.loadUrl(overrideUrl);
                     return true;
 //                return false;
             }

@@ -43,7 +43,7 @@ public class OkHttpResourceLoader implements ResourceLoader {
     private static final String DEFAULT_USER_AGENT = "FastWebView" + BuildConfig.VERSION_NAME;
     private Context mContext;
 
-//    OkHttpClientProvider okHttpClientProvider;
+    OkHttpClientProvider okHttpClientProvider;
 
     public OkHttpResourceLoader(Context context) {
         mContext = context;
@@ -53,12 +53,12 @@ public class OkHttpResourceLoader implements ResourceLoader {
     private static final int OKHTTP_CACHE_SIZE = 100 * 1024 * 1024;
 
     @Override
-    public WebResource getResource(SourceRequest sourceRequest) {
+    public sychronized WebResource getResource(SourceRequest sourceRequest) {
         String url = sourceRequest.getUrl();
         String dir = mContext.getExternalCacheDir() + File.separator + CACHE_OKHTTP_DIR_NAME;
         LogUtils.d(String.format("load url: %s", url));
         boolean isCacheByOkHttp = sourceRequest.isCacheable();
-        OkHttpClient client = new OkHttpClientProvider();
+        OkHttpClient client = okHttpClientProvider();
                 client.get().newBuilder()
                 .cookieJar(FastCookieManager.getInstance().getCookieJar(mContext))
                 .cache(new Cache(new File(dir), OKHTTP_CACHE_SIZE))

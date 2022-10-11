@@ -49,7 +49,7 @@ public class OkHttpClientProvider {
         List<Interceptor> interceptors = clientBuilder.interceptors();
         interceptors.add(new OauthHeaderRequestInterceptor(context));
 
-        OkHttpClient.Builder client = clientBuilder()
+        OkHttpClient.Builder client = clientBuilder
                 .cookieJar(FastCookieManager.getInstance().getCookieJar(context))
                 .cache(new Cache(new File(dir), OKHTTP_CACHE_SIZE))
                 .readTimeout(20, TimeUnit.SECONDS)
@@ -77,7 +77,7 @@ public class OkHttpClientProvider {
                 specs.add(ConnectionSpec.COMPATIBLE_TLS);
                 specs.add(ConnectionSpec.CLEARTEXT);
 
-                client.ConnectionSpec(specs);
+                client.connectionSpec(specs);
             } catch (Exception e) {
 //                FLog.e("OkHttpClientProvider","Error while enabling TLS 1.2",exc);
             }

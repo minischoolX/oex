@@ -5,9 +5,9 @@ import android.text.TextUtils;
 
 import org.edx.mobile.view.custom.cache.cookie.FastCookieManager;
 
-import org.edx.mobile.http.provider.OkHttpClientProvider;
+//import org.edx.mobile.http.provider.OkHttpClientProvider;
 import org.edx.mobile.view.custom.cache.WebResource;
-//import org.edx.mobile.view.custom.cache.okhttp.OkHttpClientProvider;
+import org.edx.mobile.view.custom.cache.okhttp.OkHttpClientProviderX;
 import org.edx.mobile.view.custom.cache.utils.HeaderUtils;
 import org.edx.mobile.view.custom.cache.utils.LogUtils;
 import org.edx.mobile.BuildConfig;
@@ -18,7 +18,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.Cache;
+//import okhttp3.Cache;
 import okhttp3.CacheControl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -43,31 +43,32 @@ public class OkHttpResourceLoader implements ResourceLoader {
     private static final String DEFAULT_USER_AGENT = "FastWebView" + BuildConfig.VERSION_NAME;
     private Context mContext;
 
-    OkHttpClientProvider okHttpClientProvider;
+//    OkHttpClientProvider okHttpClientProvider;
 
     public OkHttpResourceLoader(Context context) {
         mContext = context;
     }
 
-    private static final String CACHE_OKHTTP_DIR_NAME = "cached_webview_okhttp";
-    private static final int OKHTTP_CACHE_SIZE = 100 * 1024 * 1024;
+//    private static final String CACHE_OKHTTP_DIR_NAME = "cached_webview_okhttp";
+//    private static final int OKHTTP_CACHE_SIZE = 100 * 1024 * 1024;
 
     @Override
     public WebResource getResource(SourceRequest sourceRequest) {
         String url = sourceRequest.getUrl();
-        String dir = mContext.getExternalCacheDir() + File.separator + CACHE_OKHTTP_DIR_NAME;
+//        String dir = mContext.getExternalCacheDir() + File.separator + CACHE_OKHTTP_DIR_NAME;
         LogUtils.d(String.format("load url: %s", url));
         boolean isCacheByOkHttp = sourceRequest.isCacheable();
-        OkHttpClient client = okHttpClientProvider.get().newBuilder()
-                .cookieJar(FastCookieManager.getInstance().getCookieJar(mContext))
-                .cache(new Cache(new File(dir), OKHTTP_CACHE_SIZE))
-                .readTimeout(20, TimeUnit.SECONDS)
-                .writeTimeout(20, TimeUnit.SECONDS)
-                .connectTimeout(20, TimeUnit.SECONDS)
-                // auto redirects is not allowed, bc we need to notify webview to do some internal processing.
-                .followSslRedirects(false)
-                .followRedirects(false)
-                .build();
+        OkHttpClient client = OkHttpClientProviderX.get(mContext);
+//        OkHttpClient client = okHttpClientProvider.get().newBuilder()
+//                .cookieJar(FastCookieManager.getInstance().getCookieJar(mContext))
+//                .cache(new Cache(new File(dir), OKHTTP_CACHE_SIZE))
+//                .readTimeout(20, TimeUnit.SECONDS)
+//                .writeTimeout(20, TimeUnit.SECONDS)
+//                .connectTimeout(20, TimeUnit.SECONDS)
+//                // auto redirects is not allowed, bc we need to notify webview to do some internal processing.
+//                .followSslRedirects(false)
+//                .followRedirects(false)
+//                .build();
         CacheControl cacheControl = getCacheControl(sourceRequest.getWebViewCache(), isCacheByOkHttp);
         String userAgent = sourceRequest.getUserAgent();
         if (TextUtils.isEmpty(userAgent)) {

@@ -1,5 +1,6 @@
 package org.edx.mobile.view.custom.cache.okhttp;
 
+import android.os.Build;
 import android.content.Context;
 
 import androidx.annotation.Nullable;
@@ -48,7 +49,7 @@ public class OkHttpClientProvider {
         List<Interceptor> interceptors = clientBuilder.interceptors();
         interceptors.add(new OauthHeaderRequestInterceptor(context));
 
-        OkHttpClient client = new OkHttpClient.Builder()
+        OkHttpClient.Builder client = clientBuilder()
                 .cookieJar(FastCookieManager.getInstance().getCookieJar(context))
                 .cache(new Cache(new File(dir), OKHTTP_CACHE_SIZE))
                 .readTimeout(20, TimeUnit.SECONDS)

@@ -31,7 +31,7 @@ public class OkHttpClientProvider {
     private static final String CACHE_OKHTTP_DIR_NAME = "cached_webview_okhttp";
     private static final int OKHTTP_CACHE_SIZE = 100 * 1024 * 1024;
     private static volatile OkHttpClientProvider sInstance;
-//    private OkHttpClient mClient;
+    private OkHttpClient mClient;
 
 //    private OauthRefreshTokenAuthenticator oauthRefreshTokenAuthenticator;
 
@@ -82,7 +82,7 @@ public class OkHttpClientProvider {
 //                .authenticator(oauthRefreshTokenAuthenticator)
 
 //                mClient.build();
-                OkHttpClient mClient = mClientBuilder.build();
+                mClient = mClientBuilder.build();
     }
 
     public static OkHttpClient get(Context context) {

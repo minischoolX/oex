@@ -77,7 +77,7 @@ public class OkHttpClientProvider {
                 specs.add(ConnectionSpec.COMPATIBLE_TLS);
                 specs.add(ConnectionSpec.CLEARTEXT);
 
-                client.connectionSpec(specs);
+                client.connectionSpecs(specs);
             } catch (Exception e) {
 //                FLog.e("OkHttpClientProvider","Error while enabling TLS 1.2",exc);
             }

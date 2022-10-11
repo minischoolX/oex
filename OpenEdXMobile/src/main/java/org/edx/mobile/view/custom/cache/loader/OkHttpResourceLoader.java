@@ -53,7 +53,7 @@ public class OkHttpResourceLoader implements ResourceLoader {
     private static final int OKHTTP_CACHE_SIZE = 100 * 1024 * 1024;
 
     @Override
-    public static WebResource getResource(SourceRequest sourceRequest) {
+    public WebResource getResource(SourceRequest sourceRequest) {
         String url = sourceRequest.getUrl();
         String dir = mContext.getExternalCacheDir() + File.separator + CACHE_OKHTTP_DIR_NAME;
         LogUtils.d(String.format("load url: %s", url));

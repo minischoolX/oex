@@ -58,8 +58,7 @@ public class OkHttpResourceLoader implements ResourceLoader {
         String dir = mContext.getExternalCacheDir() + File.separator + CACHE_OKHTTP_DIR_NAME;
         LogUtils.d(String.format("load url: %s", url));
         boolean isCacheByOkHttp = sourceRequest.isCacheable();
-        OkHttpClient client = okHttpClientProvider();
-                client.get().newBuilder()
+        OkHttpClient client = okHttpClientProvider.get().newBuilder()
                 .cookieJar(FastCookieManager.getInstance().getCookieJar(mContext))
                 .cache(new Cache(new File(dir), OKHTTP_CACHE_SIZE))
                 .readTimeout(20, TimeUnit.SECONDS)

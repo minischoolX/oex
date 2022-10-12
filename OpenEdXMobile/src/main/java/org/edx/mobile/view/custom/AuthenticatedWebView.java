@@ -225,12 +225,15 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
                 public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
                     String interceptUrl = request.getUrl().toString();
 //                    if (interceptUrl.contains("xblock")) {
+//                        if (binding.webview != null) {
+//                            view = binding.webview;
+//                        }
                         return onIntercept(view, request);
 //                    }
 //                    return super.shouldInterceptRequest(view, request);
                 }
 
-                private WebResourceResponse onIntercept(WebView binding.webview, WebResourceRequest request) {
+                private WebResourceResponse onIntercept(binding.webview view, WebResourceRequest request) {
                     return loadFromWebViewCache(request);
                 }
 

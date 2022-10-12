@@ -216,9 +216,9 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
 //                    return true;
 //                }
 //                    string overrideUrlX = uri.toURL();
-                    view.loadUrl(overrideUrl);
-                    return true;
-//                return false;
+//                    view.loadUrl(overrideUrl);
+//                    return true;
+                return false;
             }
 
             @Override
@@ -230,7 +230,7 @@ public class AuthenticatedWebView extends FrameLayout implements RefreshListener
 //                    return super.shouldInterceptRequest(view, request);
                 }
 
-                private WebResourceResponse onIntercept(WebView view, WebResourceRequest request) {
+                private WebResourceResponse onIntercept(WebView binding.webview, WebResourceRequest request) {
                     return loadFromWebViewCache(request);
                 }
 
